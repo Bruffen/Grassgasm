@@ -1,10 +1,21 @@
 <?xml version="1.0" ?>
 <project name="Lighting" width = "1280" height = "720">
     <assets>
-
         <scenes>
             <scene name = "Skybox">
                 <geometry name = "cube_skybox" type = "BOX" material="mat_skybox"/>
+            </scene>
+            <scene name = "Axis">
+                <geometry name = "axis" type = "AXIS" />
+            </scene>
+            <scene name = "Sphere">
+                <geometry name = "sphere" type = "SPHERE" />
+                <TRANSLATE x=0 y=0 z=-1 />
+            </scene>
+            <scene name = "Plane">
+                <geometry name = "plane" type = "SQUARE" />
+                <SCALE x=100 y=1 z=100 />
+                <TRANSLATE x=0 y=-2 z=0 />
             </scene>
         </scenes>
 
@@ -33,14 +44,18 @@
 
         <materialLibs>
 			<materialLib filename="materials/skybox.mlib" />
+            <materialLib filename="materials/postprocess.mlib" />
 		</materialLibs>
     </assets>
 
     <pipelines>
         <pipeline name="Lighting" default="true">
-            <pass class="default" name="Setup">
+            <pass class="default" name="Pass">
                 <scenes>
                     <scene name="Skybox" />
+                    <scene name="Axis" />
+                    <scene name="Sphere" />
+                    <scene name="Plane" />
                 </scenes>
                 <camera name="MainCamera" />
                 <lights>
@@ -48,14 +63,30 @@
                 </lights>
                 <injectionMaps>
 					<map toMaterial="mat_skybox">
-						<state name="cull" fromLibrary="Lighting#Setup" />
+						<state name="cull" fromLibrary="Lighting#Pass" />
 					</map>
 				</injectionMaps>
                 <materialMaps>
 					<map fromMaterial="mat_skybox" 
-                         toMaterial="mat_skybox" toLibrary="Lighting#Setup"/>
+                         toMaterial="mat_skybox" toLibrary="Lighting#Pass"/>
 				</materialMaps>
             </pass>
+            <!--pass class="quad" name="PostProcess1">
+				<viewport name="MainViewport" />
+				<texture name="PostProcessing::tex_source" />
+			</pass>
+            <pass class="quad" name="PostProcess">
+				<viewport name="MainViewport" />
+				<renderTarget name="PostProcessing::tex_source" />
+                <material name="mat_brightness" fromLibrary="PostProcessing" />
+			</pass-->
         </pipeline>
     </pipelines>
+
+    <!--interface> 
+        <window label="Sun"> 
+            <var label="Direction" type="LIGHT" context="Sun"
+                component="DIRECTION"  def="step=10" /> 
+        </window>  
+    </interface-->   
 </project>

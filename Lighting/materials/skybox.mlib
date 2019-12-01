@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
-<materialLib name="Lighting#Setup">
+<materialLib name="Lighting#Pass">
 
-	<textures>
+	<!--textures>
 		<cubeMap name="cube_hills" 
 			filePosX="../textures/craterlake_ft.png"
 			fileNegX="../textures/craterlake_bk.png"
@@ -10,7 +10,7 @@
 			filePosZ="../textures/craterlake_lf.png"
 			fileNegZ="../textures/craterlake_rt.png"	
 		/>
-    </textures>
+    </textures-->
 
 	<shaders>
             <shader name = "shader_skybox"
@@ -45,15 +45,15 @@
 							 type="LIGHT" context="Sun"
 							 component="DIRECTION" />
 
-                    <valueof uniform="skybox"
+                    <!--valueof uniform="skybox"
                              type="TEXTURE_BINDING" context = "CURRENT"
-                             component="UNIT" id=0 />
+                             component="UNIT" id=0 /-->
 
 				</values>
 			</shader>
-            <textures>
+            <!--textures>
                 <texture name="cube_hills" UNIT = 0 />
-            </textures>
+            </textures-->
 		</material>
 	</materials>
 </materialLib>
