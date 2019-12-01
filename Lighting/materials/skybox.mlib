@@ -1,0 +1,59 @@
+<?xml version="1.0" ?>
+<materialLib name="Lighting#Setup">
+
+	<textures>
+		<cubeMap name="cube_hills" 
+			filePosX="../textures/craterlake_ft.png"
+			fileNegX="../textures/craterlake_bk.png"
+			filePosY="../textures/craterlake_up.png"
+			fileNegY="../textures/craterlake_dn.png"
+			filePosZ="../textures/craterlake_lf.png"
+			fileNegZ="../textures/craterlake_rt.png"	
+		/>
+    </textures>
+
+	<shaders>
+            <shader name = "shader_skybox"
+                vs = "../shaders/skybox.vert"
+                ps = "../shaders/skybox.frag" />
+	</shaders>
+
+    <states>
+		<state name="cull">
+			<DEPTH_FUNC value="LEQUAL" />
+			<CULL_TYPE value="FRONT" />
+		</state>
+	</states>
+	
+	<materials>
+		<material name="mat_skybox">
+			<shader name="shader_skybox">
+				<values>
+					<valueof uniform="m_proj" 
+							 type="RENDERER" context="CURRENT" 
+							 component="PROJECTION" />
+
+					<valueof uniform="m_view" 
+							 type="RENDERER" context="CURRENT" 
+							 component="VIEW" />
+
+					<!--TODO valueof uniform="screen_coords"
+                             type="RENDERER" context = "CURRENT"
+                             component="VIEWPORT" /-->
+							 
+					<valueof uniform="light_dir" 
+							 type="LIGHT" context="Sun"
+							 component="DIRECTION" />
+
+                    <valueof uniform="skybox"
+                             type="TEXTURE_BINDING" context = "CURRENT"
+                             component="UNIT" id=0 />
+
+				</values>
+			</shader>
+            <textures>
+                <texture name="cube_hills" UNIT = 0 />
+            </textures>
+		</material>
+	</materials>
+</materialLib>

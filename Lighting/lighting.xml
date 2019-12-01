@@ -1,0 +1,61 @@
+<?xml version="1.0" ?>
+<project name="Lighting" width = "1280" height = "720">
+    <assets>
+
+        <scenes>
+            <scene name = "Skybox">
+                <geometry name = "cube_skybox" type = "BOX" material="mat_skybox"/>
+            </scene>
+        </scenes>
+
+        <viewports>
+            <viewport name="MainViewport">
+                <CLEAR_COLOR r="0.6" g="0.8" b="0.98" />
+            </viewport>
+        </viewports>
+
+        <cameras>
+            <camera name="MainCamera" >
+                <viewport name="MainViewport" />
+                <POSITION x=0 y=0.5 z=7.5 />
+                <VIEW x=0.0 y=0.0 z=-1.0 />
+                <UP x=0 y=1 z=0 />
+                <NEAR value=0.01 />
+            </camera>
+        </cameras>
+
+        <lights>
+            <light name="Sun">
+                <DIRECTION x="1.0" y="-1.0" z="-1.0" />
+                <COLOR r="0.9" g="0.9" b="0.9" />
+            </light>
+        </lights>
+
+        <materialLibs>
+			<materialLib filename="materials/skybox.mlib" />
+		</materialLibs>
+    </assets>
+
+    <pipelines>
+        <pipeline name="Lighting" default="true">
+            <pass class="default" name="Setup">
+                <scenes>
+                    <scene name="Skybox" />
+                </scenes>
+                <camera name="MainCamera" />
+                <lights>
+                    <light name="Sun" />
+                </lights>
+                <injectionMaps>
+					<map toMaterial="mat_skybox">
+						<state name="cull" fromLibrary="Lighting#Setup" />
+					</map>
+				</injectionMaps>
+                <materialMaps>
+					<map fromMaterial="mat_skybox" 
+                         toMaterial="mat_skybox" toLibrary="Lighting#Setup"/>
+				</materialMaps>
+            </pass>
+        </pipeline>
+    </pipelines>
+</project>
