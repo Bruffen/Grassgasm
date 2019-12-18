@@ -1,6 +1,10 @@
 <?xml version="1.0" ?>
 <project name="Lighting" width = "1280" height = "720">
     <assets>
+    	<attributes>
+			<attribute name="num_samples" data="INT" type="RENDERER" value=100 />
+		</attributes>
+		
         <scenes>
             <scene name = "Skybox">
                 <geometry name = "cube_skybox" type = "BOX" material="mat_skybox"/>
@@ -21,7 +25,7 @@
 
         <viewports>
             <viewport name="MainViewport">
-                <CLEAR_COLOR r="0.6" g="0.8" b="0.98" />
+                <CLEAR_COLOR r="0.6" g="0.8" b="0.7" />
             </viewport>
         </viewports>
 
@@ -58,6 +62,7 @@
                     <scene name="Plane" />
                 </scenes>
                 <camera name="MainCamera" />
+                <viewport name="MainViewport" />
                 <lights>
                     <light name="Sun" />
                 </lights>
@@ -70,23 +75,34 @@
 					<map fromMaterial="mat_skybox" 
                          toMaterial="mat_skybox" toLibrary="Lighting#Pass"/>
 				</materialMaps>
+                <renderTarget name="Source" fromLibrary="PostProcessing" />
             </pass>
-            <!--pass class="quad" name="PostProcess1">
+
+            <!-- Post Processing -->
+
+            <pass class="quad" name="PostProcess1">
 				<viewport name="MainViewport" />
-				<texture name="PostProcessing::tex_source" />
+                <!--texture name="PostProcessing::tex_source" /-->
+				<materialMaps>
+					<map fromMaterial="__Quad" 
+                         toMaterial="mat_brightness" toLibrary="PostProcessing"/>
+				</materialMaps>
+                <renderTarget name="Brightness" fromLibrary="PostProcessing" />
 			</pass>
-            <pass class="quad" name="PostProcess">
+            <pass class="quad" name="PostProcess2">
+                <camera name="MainCamera" />
 				<viewport name="MainViewport" />
-				<renderTarget name="PostProcessing::tex_source" />
-                <material name="mat_brightness" fromLibrary="PostProcessing" />
-			</pass-->
+				<materialMaps>
+					<map fromMaterial="__Quad" 
+                         toMaterial="mat_radialblur" toLibrary="PostProcessing"/>
+				</materialMaps>
+			</pass>
         </pipeline>
     </pipelines>
 
     <!--interface> 
-        <window label="Sun"> 
-            <var label="Direction" type="LIGHT" context="Sun"
-                component="DIRECTION"  def="step=10" /> 
+        <window label="God rays"> 
+            <var label="Samples number" type="INT" context="RENDERER" component="num_samples" /> 
         </window>  
     </interface-->   
 </project>

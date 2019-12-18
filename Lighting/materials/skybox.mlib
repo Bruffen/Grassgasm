@@ -45,6 +45,10 @@
 							 type="LIGHT" context="Sun"
 							 component="DIRECTION" />
 
+					<valueof uniform="view_size"
+							 type="VIEWPORT" context="CURRENT"
+							 component="SIZE" />
+
                     <!--valueof uniform="skybox"
                              type="TEXTURE_BINDING" context = "CURRENT"
                              component="UNIT" id=0 /-->

@@ -4,13 +4,13 @@
     	<renderTarget name = "Source">
 			<SIZE width=1280 height=720 />
 			<colors>
-				<color name="tex_source"  internalFormat="RGBA32F" />
+				<color name="tex_source" internalFormat="RGBA32F" />
 			</colors>
 		</renderTarget>
-		<renderTarget name = "Brightness">
-			<SIZE width=1280 height=720 />
+    	<renderTarget name = "Brightness">
+			<SIZE width=160 height=90 />
 			<colors>
-				<color name="tex_brightness"  internalFormat="RGBA32F" />
+				<color name="tex_brightness" internalFormat="R32F" />
 			</colors>
 		</renderTarget>
     </renderTargets>
@@ -19,6 +19,9 @@
             <shader name = "shader_brightness"
                 vs = "../shaders/brightness.vert"
                 ps = "../shaders/brightness.frag" />
+			<shader name = "shader_radialblur"
+                vs = "../shaders/radialblur.vert"
+                ps = "../shaders/radialblur.frag" />
 	</shaders>
 
 	<materials>
@@ -32,6 +35,25 @@
 			</shader>
             <textures>
                 <texture name="tex_source" UNIT=0 />
+            </textures>
+		</material>
+		<material name="mat_radialblur">
+			<shader name="shader_radialblur">
+				<values>
+                    <valueof uniform="tex_source"
+                             type="TEXTURE_BINDING" context = "CURRENT"
+                             component="UNIT" id=0 />
+					<valueof uniform="tex_brightness"
+                             type="TEXTURE_BINDING" context = "CURRENT"
+                             component="UNIT" id=1 />
+					<valueof uniform="num_samples"
+                             type="RENDERER" context = "CURRENT"
+                             component="num_samples" />
+				</values>
+			</shader>
+            <textures>
+                <texture name="tex_source" 		UNIT=0 />
+                <texture name="tex_brightness" 	UNIT=1 />
             </textures>
 		</material>
 	</materials>

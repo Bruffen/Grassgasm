@@ -3,6 +3,7 @@
 uniform	mat4 m_proj;
 uniform	mat4 m_view;
 uniform vec3 light_dir;
+uniform vec2 view_size;
 
 in vec4 position;
 
@@ -27,7 +28,7 @@ void main()
     vec4 light_screenPos = m_proj * view * vec4(-light_dir, 1.0);
     vec3 light_normscPos = light_screenPos.xyz / light_screenPos.w;
     // TODO replace resolution with uniform
-    o.light_windowPos = (light_normscPos.xy * 0.5 + 0.5) * vec2(1280, 720);
+    o.light_windowPos = (light_normscPos.xy * 0.5 + 0.5) * view_size;
     o.light_height = -light_dir.y;
 
     // Make z same as w for 1.0 depth
