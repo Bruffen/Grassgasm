@@ -8,7 +8,7 @@
 			</colors>
 		</renderTarget>
     	<renderTarget name = "Brightness">
-			<SIZE width=160 height=90 />
+			<SIZE width=320 height=180 />
 			<colors>
 				<color name="tex_brightness" internalFormat="R32F" />
 			</colors>
@@ -49,6 +49,9 @@
 					<valueof uniform="num_samples"
                              type="RENDERER" context = "CURRENT"
                              component="num_samples" />
+					<valueof uniform="ray_length"
+                             type="RENDERER" context = "CURRENT"
+                             component="ray_length" />
 				</values>
 			</shader>
             <textures>

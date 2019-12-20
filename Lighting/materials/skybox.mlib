@@ -32,23 +32,24 @@
 					<valueof uniform="m_proj" 
 							 type="RENDERER" context="CURRENT" 
 							 component="PROJECTION" />
-
 					<valueof uniform="m_view" 
 							 type="RENDERER" context="CURRENT" 
 							 component="VIEW" />
-
 					<!--TODO valueof uniform="screen_coords"
                              type="RENDERER" context = "CURRENT"
                              component="VIEWPORT" /-->
-							 
 					<valueof uniform="light_dir" 
 							 type="LIGHT" context="Sun"
 							 component="DIRECTION" />
-
 					<valueof uniform="view_size"
 							 type="VIEWPORT" context="CURRENT"
 							 component="SIZE" />
-
+					<valueof uniform="sun_cutoff"
+							 type="RENDERER" context="CURRENT"
+							 component="sun_cutoff" />
+					<valueof uniform="sun_fade"
+							 type="RENDERER" context="CURRENT"
+							 component="sun_fade" />
                     <!--valueof uniform="skybox"
                              type="TEXTURE_BINDING" context = "CURRENT"
                              component="UNIT" id=0 /-->

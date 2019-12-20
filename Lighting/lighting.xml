@@ -2,7 +2,13 @@
 <project name="Lighting" width = "1280" height = "720">
     <assets>
     	<attributes>
-			<attribute name="num_samples" data="INT" type="RENDERER" value=100 />
+            <!--Skybox-->
+            <!--attribute name="sun_color" data="COLOR" type="RENDERER" value=-->
+            <attribute name="sun_cutoff" data="FLOAT" type="RENDERER" value=20 />
+            <attribute name="sun_fade" data="FLOAT" type="RENDERER" value=10 />
+            <!--GodRays-->
+			<attribute name="num_samples" data="INT" type="RENDERER" value=60 />
+            <attribute name="ray_length" data="FLOAT" type="RENDERER" value=0.85 />
 		</attributes>
 		
         <scenes>
@@ -21,6 +27,11 @@
                 <SCALE x=100 y=1 z=100 />
                 <TRANSLATE x=0 y=-2 z=0 />
             </scene>
+            <scene name = "Tree" >
+                <file name = "models/PineTree.3ds" />
+                <TRANSLATE x=2 y=0 z=2 />
+                <SCALE x=1 y=-1 z=1 />
+            </scene>
         </scenes>
 
         <viewports>
@@ -32,7 +43,7 @@
         <cameras>
             <camera name="MainCamera" >
                 <viewport name="MainViewport" />
-                <POSITION x=0 y=0.5 z=7.5 />
+                <POSITION x=0 y=0 z=0 />
                 <VIEW x=0.0 y=0.0 z=-1.0 />
                 <UP x=0 y=1 z=0 />
                 <NEAR value=0.01 />
@@ -60,6 +71,7 @@
                     <scene name="Axis" />
                     <scene name="Sphere" />
                     <scene name="Plane" />
+                    <scene name="Tree" />
                 </scenes>
                 <camera name="MainCamera" />
                 <viewport name="MainViewport" />
@@ -80,16 +92,14 @@
 
             <!-- Post Processing -->
 
-            <pass class="quad" name="PostProcess1">
-				<viewport name="MainViewport" />
-                <!--texture name="PostProcessing::tex_source" /-->
+            <pass class="quad" name="PostProcess_Setup">
 				<materialMaps>
 					<map fromMaterial="__Quad" 
                          toMaterial="mat_brightness" toLibrary="PostProcessing"/>
 				</materialMaps>
                 <renderTarget name="Brightness" fromLibrary="PostProcessing" />
 			</pass>
-            <pass class="quad" name="PostProcess2">
+            <pass class="quad" name="PostProcess_Effects">
                 <camera name="MainCamera" />
 				<viewport name="MainViewport" />
 				<materialMaps>
@@ -100,9 +110,15 @@
         </pipeline>
     </pipelines>
 
-    <!--interface> 
+    <interface> 
+        <window label="Skybox"> 
+            <var label="Sun size" type="RENDERER" context="CURRENT" component="sun_cutoff" def="min=0 step=0.05"/>
+            <var label="Sun fade" type="RENDERER" context="CURRENT" component="sun_fade" def="min=0 step=0.05"/>
+            <var label="Sun direction" type="LIGHT" context="Sun" component="DIRECTION" />
+        </window>
         <window label="God rays"> 
-            <var label="Samples number" type="INT" context="RENDERER" component="num_samples" /> 
+            <var label="Samples" type="RENDERER" context="CURRENT" component="num_samples" def="min=0 max=200" /> 
+            <var label="Ray length" type="RENDERER" context="CURRENT" component="ray_length" def="min=0 max=1 step=0.01"/> 
         </window>  
-    </interface-->   
+    </interface>   
 </project>
