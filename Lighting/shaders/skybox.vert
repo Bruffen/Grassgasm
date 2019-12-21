@@ -27,9 +27,8 @@ void main()
     
     vec4 light_screenPos = m_proj * view * vec4(-light_dir, 1.0);
     vec3 light_normscPos = light_screenPos.xyz / light_screenPos.w;
-    // TODO replace resolution with uniform
     o.light_windowPos = (light_normscPos.xy * 0.5 + 0.5) * view_size;
-    o.light_height = abs(light_dir.y);
+    o.light_height = clamp(abs(light_dir.y), 0.0, 1.0);
 
     // Make z same as w for 1.0 depth
     gl_Position = (m_proj * view * position).xyww;

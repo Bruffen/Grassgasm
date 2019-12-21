@@ -29,8 +29,7 @@
 			<shader name="shader_brightness">
 				<values>
                     <valueof uniform="tex_source"
-                             type="TEXTURE_BINDING" context = "CURRENT"
-                             component="UNIT" id=0 />
+                             type="TEXTURE_BINDING" context = "CURRENT" component="UNIT" id=0 />
 				</values>
 			</shader>
             <textures>
@@ -41,17 +40,17 @@
 			<shader name="shader_radialblur">
 				<values>
                     <valueof uniform="tex_source"
-                             type="TEXTURE_BINDING" context = "CURRENT"
-                             component="UNIT" id=0 />
+                             type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id=0 />
 					<valueof uniform="tex_brightness"
-                             type="TEXTURE_BINDING" context = "CURRENT"
-                             component="UNIT" id=1 />
+                             type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id=1 />
 					<valueof uniform="num_samples"
-                             type="RENDERER" context = "CURRENT"
-                             component="num_samples" />
+                             type="RENDERER" context="CURRENT" component="num_samples" />
 					<valueof uniform="ray_length"
-                             type="RENDERER" context = "CURRENT"
-                             component="ray_length" />
+                             type="RENDERER" context="CURRENT" component="ray_length" />
+					<valueof uniform="sun_screenPos"
+							 type="RENDERER" context="CURRENT" component="sun_screenPos" />
+					<valueof uniform="sun_color"
+							 type="LIGHT" context="Sun" component="COLOR" />
 				</values>
 			</shader>
             <textures>
