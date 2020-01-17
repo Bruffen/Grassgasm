@@ -8,8 +8,6 @@ uniform vec2  sun_screenPos;
 uniform vec2  view_size;
 
 in data {
-    vec3    position;
-    vec2    light_windowPos;
     float   light_height;
 } o;
 
@@ -17,8 +15,7 @@ out vec4 color;
 
 void main()
 {
-    //vec3 tex = texture(skybox, o.position).rgb;
-    float dist = length(sun_screenPos * view_size - gl_FragCoord.xy);
+    float dist = length(gl_FragCoord.xy - sun_screenPos * view_size);
     
     /* Simple circle */
     //float sun_value = dist < sun_cutoff ? 1.0 : 0.0;

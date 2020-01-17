@@ -7,21 +7,21 @@ uniform float ray_length;
 uniform vec3 sun_color;
 uniform vec2 sun_screenPos;
 
-in vec2 uv;
+in data {
+	vec2 	uv;
+} o;
 
 out vec4 o_color;
 
 void main()
 {
-    vec4 s_color = texture(tex_source, uv);
-    float ray_alpha = 0.0;
-
-    vec2 sun_position = vec2(0.5);
-    vec2 ray_distance = uv - sun_screenPos;
-    vec2 offset = vec2(0.0);
+    vec4 s_color = texture(tex_source, o.uv);
+    vec2 ray_distance = o.uv - sun_screenPos;
 
     // Precompute loop values
     float inv_numsamples = 1.0 / num_samples;
+    float ray_alpha = 0.0;
+    vec2 offset = vec2(0.0);
 
     // Sample along center of sun towards current pixel
     for (int i = 0; i < num_samples; i++) {
@@ -30,5 +30,5 @@ void main()
     }
 
     o_color = mix(s_color, vec4(sun_color, 1.0), ray_alpha);
-    //o_color = vec4(ray_alpha);
+    //o_color = vec4(pvm[1][2]) * 0.8;
 }

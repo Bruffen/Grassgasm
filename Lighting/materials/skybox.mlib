@@ -37,14 +37,14 @@
 							 type="VIEWPORT" context="CURRENT" component="SIZE" />
 					<valueof uniform="light_dir" 
 							 type="LIGHT" context="Sun" component="DIRECTION" />
-					<valueof uniform="sun_screenPos"
-							 type="RENDERER" context="CURRENT" component="sun_screenPos" />
 					<valueof uniform="sun_color"
 							 type="LIGHT" context="Sun" component="COLOR" />
 					<valueof uniform="sun_cutoff"
 							 type="RENDERER" context="CURRENT" component="sun_cutoff" />
 					<valueof uniform="sun_fade"
 							 type="RENDERER" context="CURRENT" component="sun_fade" />
+					<valueof uniform="sun_screenPos"
+							 type="RENDERER" context="CURRENT" component="sun_screenPos" />
                     <!--valueof uniform="skybox"
                              type="TEXTURE_BINDING" context = "CURRENT" component="UNIT" id=0 /-->
 
