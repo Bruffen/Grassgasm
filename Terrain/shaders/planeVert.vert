@@ -153,15 +153,15 @@ float custom_noise(vec2 points){
 }
 
 float mynoise(vec2 points){
+  
+  points = points;
   float seed = 100;
-  points = points/2;
-  return (
-           1* perlin((points),1,seed + 200)
-          +0.5*perlin((points),2,seed - 200)
-          +0.25*perlin((points),4,seed + 500)
-          +0.125*perlin((points),8,seed + 600)
-          +0.0635*perlin((points),16,seed + 20)
-          )/3;
+  float result = 0; 
+  for(int i=0;i<5;++i)
+  {
+    result += (1.0/pow(2,i))*perlin(points,pow(2,i),seed+i*100);
+  }
+  return result/3;
 }
 
 
