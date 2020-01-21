@@ -1,6 +1,8 @@
 #version 330
 
 //uniform samplerCube skybox;
+uniform vec3  sky_blue;
+uniform vec3  sky_orange;
 uniform vec3  sun_color;
 uniform float sun_cutoff;
 uniform float sun_fade;
@@ -25,10 +27,7 @@ void main()
     
     /* Gaussian Distribution */
     float sun_value = pow(2.17, -(dist*dist) / (2 * pow(sun_cutoff, 2))) * sun_fade;
-    
-    vec3 sky_orange    = vec3(0.9, 0.4, 0.2);
-    vec3 sky_blue      = vec3(0.4, 0.6, 0.9);
-    vec3 sky_color     = mix(sky_orange, sky_blue, o.light_height);
+    vec3 sky_color = mix(sky_orange, sky_blue, o.light_height);
 
     color = vec4(mix(sky_color, sun_color, sun_value), 1.0);
 }

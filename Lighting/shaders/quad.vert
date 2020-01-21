@@ -3,12 +3,10 @@
 in vec4 position;
 in vec2 texCoord0;
 
-out data {
-	vec2 	uv;
-} o;
+out vec2 uv;
 
-void main()
-{
-	o.uv = texCoord0;
+void main() {
+
 	gl_Position = position;
-} 
+	uv = texCoord0;
+}

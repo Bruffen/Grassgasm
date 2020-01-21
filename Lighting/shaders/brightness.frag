@@ -1,7 +1,7 @@
 #version 330
 
-in vec2 uv;
 uniform sampler2D tex_source;
+in vec2 uv;
 
 out vec4 color;
 

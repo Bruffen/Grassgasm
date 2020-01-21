@@ -6,16 +6,27 @@
             <attribute name="m_proj"        data="MAT4" type="RENDERER" />
             <attribute name="m_pv"          data="MAT4" type="RENDERER" />
             <!--Skybox-->
+            <attribute name="sky_blue"      data="VEC3"  type="RENDERER" x=0.4 y=0.6 z=0.9 />
+            <attribute name="sky_orange"    data="VEC3"  type="RENDERER" x=0.9 y=0.4 z=0.2 />
             <attribute name="sun_cutoff"    data="FLOAT" type="RENDERER" value=20 />
             <attribute name="sun_fade"      data="FLOAT" type="RENDERER" value=10 />
             <attribute name="sun_screenPos" data="VEC2"  type="RENDERER" x=0.5 y=0.5 />
             <!--GodRays-->
 			<attribute name="num_samples"   data="INT"   type="RENDERER" value=60 />
             <attribute name="ray_length"    data="FLOAT" type="RENDERER" value=0.85 />
+            <!--LensFlare-->
+            <attribute name="ghost_count"   data="INT"   type="RENDERER" value=3 />
+            <attribute name="ghost_spacing" data="FLOAT" type="RENDERER" value=0.75 />
+            <attribute name="ghost_threshold" data="FLOAT" type="RENDERER" value=1.25 />
+            <attribute name="lens_aberration" data="FLOAT" type="RENDERER" value=0.25 />
+            <attribute name="lens_transparency" data="FLOAT" type="RENDERER" value=0.08 />
+            <!--Vignette-->
+            <attribute name="vig_outter"    data="FLOAT" type="RENDERER" value=0.85 />
+            <attribute name="vig_inner"     data="FLOAT" type="RENDERER" value=0.4 />
+            <attribute name="vig_opacity"   data="FLOAT" type="RENDERER" value=0.25 />
             <!--Grass-->
             <attribute name="translucency"  data="FLOAT" type="RENDERER" value=1.25 />
             <attribute name="scattering"    data="FLOAT" type="RENDERER" value=90.0 />
-
 		</attributes>
 		
         <scenes>
@@ -61,7 +72,7 @@
         <lights>
             <light name="Sun">
                 <DIRECTION x="1.0" y="-1.0" z="-1.0" />
-                <COLOR r="1.0" g="1.0" b="0.96" />
+                <COLOR r="1.0" g="1.0" b="0.98" />
             </light>
         </lights>
 
@@ -110,6 +121,20 @@
 				</materialMaps>
                 <renderTarget name="Brightness" fromLibrary="PostProcessing" />
 			</pass>
+            <pass class="quad" name="PostProcess_Lens">
+                <!--camera name="MainCamera" />
+				<viewport name="MainViewport" /-->
+				<materialMaps>
+				    <map fromMaterial="__Quad" toMaterial="mat_lensflare" toLibrary="PostProcessing"/>
+				</materialMaps>
+                <renderTarget name="LensFlare" fromLibrary="PostProcessing" />
+			</pass>
+            <pass class="quad" name="PostProcess_LensBlur">
+				<materialMaps>
+					<map fromMaterial="__Quad" toMaterial="mat_blur" toLibrary="PostProcessing"/>
+				</materialMaps>
+                <renderTarget name="LensFlareBlurred" fromLibrary="PostProcessing" />
+			</pass>
             <pass class="quad" name="PostProcess_Effects">
                 <camera name="MainCamera" />
 				<viewport name="MainViewport" />
@@ -122,6 +147,8 @@
 
     <interface> 
         <window label="Skybox">
+            <var label="Sky blue" type="RENDERER" context="CURRENT" component="sky_blue"/>
+            <var label="Sky orange" type="RENDERER" context="CURRENT" component="sky_orange"/>
             <var label="Sun color" type="LIGHT" context="Sun" component="COLOR"/>
             <var label="Sun size" type="RENDERER" context="CURRENT" component="sun_cutoff" def="min=0 step=0.05"/>
             <var label="Sun fade" type="RENDERER" context="CURRENT" component="sun_fade" def="min=0 step=0.05"/>
@@ -130,6 +157,18 @@
         <window label="God rays"> 
             <var label="Samples" type="RENDERER" context="CURRENT" component="num_samples" def="min=0 max=200" /> 
             <var label="Ray length" type="RENDERER" context="CURRENT" component="ray_length" def="min=0 max=1 step=0.01"/> 
+        </window>
+        <window label="Lens Flare">
+            <var label="Ghost count" type="RENDERER" context="CURRENT" component="ghost_count" />
+            <var label="Ghost spacing" type="RENDERER" context="CURRENT" component="ghost_spacing" def="step=0.01" />
+            <var label="Ghost threshold" type="RENDERER" context="CURRENT" component="ghost_threshold" def="step=0.01" />
+            <var label="Lens aberration" type="RENDERER" context="CURRENT" component="lens_aberration" def="step=0.01" />
+            <var label="Lens transparency" type="RENDERER" context="CURRENT" component="lens_transparency" def="step=0.01" />
+        </window>
+        <window label="Post Effects">
+            <var label="Vignette outter" type="RENDERER" context="CURRENT" component="vig_outter" def="min=0 max=1 step=0.01" />
+            <var label="Vignette inner" type="RENDERER" context="CURRENT" component="vig_inner" def="min=0 max=1 step=0.01" />
+            <var label="Vignette opacity" type="RENDERER" context="CURRENT" component="vig_opacity" def="min=0 max=1 step=0.01" />
         </window>
         <window label="Grass"> 
             <var label="Scattering" type="RENDERER" context="CURRENT" component="scattering" def="min=0 max=200" /> 

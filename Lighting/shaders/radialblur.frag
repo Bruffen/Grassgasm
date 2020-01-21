@@ -1,23 +1,32 @@
-#version 330
+#version 430
 
 uniform sampler2D tex_source;
 uniform sampler2D tex_brightness;
+uniform sampler2D tex_lensflare;
 uniform int num_samples;
 uniform float ray_length;
 uniform vec3 sun_color;
 uniform vec2 sun_screenPos;
+uniform float lens_aberration;
+uniform float lens_transparency;
+uniform vec3 sky_blue;
 
-in data {
-	vec2 	uv;
-} o;
+uniform float vig_outter;
+uniform float vig_inner;
+uniform float vig_opacity;
+
+in vec2 uv;
 
 out vec4 o_color;
 
 void main()
 {
-    vec4 s_color = texture(tex_source, o.uv);
-    vec2 ray_distance = o.uv - sun_screenPos;
+    vec4 s_color = texture(tex_source, uv);
+    vec2 ray_distance = uv - sun_screenPos;
 
+    /*
+     * Sun Radial blur
+     */
     // Precompute loop values
     float inv_numsamples = 1.0 / num_samples;
     float ray_alpha = 0.0;
@@ -30,5 +39,24 @@ void main()
     }
 
     o_color = mix(s_color, vec4(sun_color, 1.0), ray_alpha);
-    //o_color = vec4(pvm[1][2]) * 0.8;
+
+    /*
+     * Chromatic aberration
+     */
+    vec2  lens_offset = (uv - 0.5) * lens_aberration * lens_aberration;
+    float lensr = texture(tex_lensflare, uv - lens_offset).r;
+    float lensg = texture(tex_lensflare, uv).r;
+    float lensb = texture(tex_lensflare, uv + lens_offset).r;
+    vec3  lens_color = vec3(lensr, lensg, clamp(lensb - sky_blue.b, 0, 1)) * sun_color;
+    o_color += vec4(lens_color, 1.0) * lens_transparency;
+
+    /*
+     * Vignette
+     */
+    vec2  dist = uv - 0.5;
+    float l = length(dist);
+    float inner = min(vig_inner, vig_outter);
+    float vignette = 1 - smoothstep(inner, vig_outter, l);
+    o_color = mix(o_color, o_color * vignette, vig_opacity);
+
 }
