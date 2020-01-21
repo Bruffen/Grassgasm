@@ -154,12 +154,14 @@ float custom_noise(vec2 points){
 
 float mynoise(vec2 points){
   float seed = 100;
-  points = points;
+  points = points/2;
   return (
            1* perlin((points),1,seed + 200)
-          +0.5*perlin((points*2),1,seed - 200)
-          +0.25*perlin((points*(4,2)),1,seed + 500)
-          )/6;
+          +0.5*perlin((points),2,seed - 200)
+          +0.25*perlin((points),4,seed + 500)
+          +0.125*perlin((points),8,seed + 600)
+          +0.0635*perlin((points),16,seed + 20)
+          )/3;
 }
 
 
@@ -167,13 +169,13 @@ float mynoise(vec2 points){
 void main () {
 	
 	DataOut.l_dir = normalize(vec3(m_view * -l_dir));
-    vec4 p = position;
-    p.y += mynoise(vec2(position.x,position.z)); 
-    float OFFSET = 0.025;
-    vec3 f_H = vec3 (position.x+OFFSET,mynoise(vec2(position.x+OFFSET,position.z)),position.z);
-    vec3 s_H = vec3 (position.x, mynoise(vec2(position.x,position.z+OFFSET)),position.z+OFFSET);
-    vec3 calcNormal = normalize(cross(s_H-p.xyz,f_H-p.xyz));
+  vec4 p = position;
+  p.y += mynoise(vec2(position.x,position.z)); 
+  float OFFSET = 0.025;
+  vec3 f_H = vec3 (position.x+OFFSET,mynoise(vec2(position.x+OFFSET,position.z)),position.z);
+  vec3 s_H = vec3 (position.x, mynoise(vec2(position.x,position.z+OFFSET)),position.z+OFFSET);
+  vec3 calcNormal = normalize(cross(s_H-p.xyz,f_H-p.xyz));
 	DataOut.normal = normalize(m_normal * calcNormal);
 	gl_Position = m_pvm * (p);	
-    DataOut.position = position;
+  DataOut.position = position;
 }
