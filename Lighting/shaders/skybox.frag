@@ -10,7 +10,7 @@ uniform vec2  sun_screenPos;
 uniform vec2  view_size;
 
 in data {
-    float   light_height;
+    float light_height;
 } o;
 
 out vec4 color;

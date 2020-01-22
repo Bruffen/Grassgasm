@@ -7,7 +7,7 @@ uniform vec3 light_dir;
 in vec4 position;
 
 out data {
-    float   light_height;
+    float light_height;
 } o;
 
 void main()

@@ -2,31 +2,34 @@
 <project name="Lighting" width = "1280" height = "720">
     <assets>
     	<attributes>
-            <attribute name="m_view"        data="MAT4" type="RENDERER" />
-            <attribute name="m_proj"        data="MAT4" type="RENDERER" />
-            <attribute name="m_pv"          data="MAT4" type="RENDERER" />
+            <attribute name="m_view"        data="MAT4"     type="RENDERER" />
+            <attribute name="m_proj"        data="MAT4"     type="RENDERER" />
+            <attribute name="m_pv"          data="MAT4"     type="RENDERER" />
             <!--Skybox-->
-            <attribute name="sky_blue"      data="VEC3"  type="RENDERER" x=0.4 y=0.6 z=0.9 />
-            <attribute name="sky_orange"    data="VEC3"  type="RENDERER" x=0.9 y=0.4 z=0.2 />
-            <attribute name="sun_cutoff"    data="FLOAT" type="RENDERER" value=20 />
-            <attribute name="sun_fade"      data="FLOAT" type="RENDERER" value=10 />
-            <attribute name="sun_screenPos" data="VEC2"  type="RENDERER" x=0.5 y=0.5 />
+            <attribute name="sky_blue"      data="VEC3"     type="RENDERER" x=0.4 y=0.6 z=0.9 />
+            <attribute name="sky_orange"    data="VEC3"     type="RENDERER" x=0.9 y=0.4 z=0.2 />
+            <attribute name="sun_cutoff"    data="FLOAT"    type="RENDERER" value=20 />
+            <attribute name="sun_fade"      data="FLOAT"    type="RENDERER" value=10 />
+            <attribute name="sun_screenPos" data="VEC2"     type="RENDERER" x=0.5 y=0.5 />
             <!--GodRays-->
-			<attribute name="num_samples"   data="INT"   type="RENDERER" value=60 />
-            <attribute name="ray_length"    data="FLOAT" type="RENDERER" value=0.85 />
+			<attribute name="num_samples"   data="INT"      type="RENDERER" value=60 />
+            <attribute name="ray_length"    data="FLOAT"    type="RENDERER" value=0.85 />
             <!--LensFlare-->
-            <attribute name="ghost_count"   data="INT"   type="RENDERER" value=3 />
-            <attribute name="ghost_spacing" data="FLOAT" type="RENDERER" value=0.75 />
-            <attribute name="ghost_threshold" data="FLOAT" type="RENDERER" value=1.25 />
-            <attribute name="lens_aberration" data="FLOAT" type="RENDERER" value=0.25 />
+            <attribute name="ghost_count"   data="INT"      type="RENDERER" value=3 />
+            <attribute name="ghost_spacing" data="FLOAT"    type="RENDERER" value=0.75 />
+            <attribute name="ghost_threshold" data="FLOAT"  type="RENDERER" value=1.25 />
+            <attribute name="lens_aberration" data="FLOAT"  type="RENDERER" value=0.25 />
             <attribute name="lens_transparency" data="FLOAT" type="RENDERER" value=0.08 />
             <!--Vignette-->
-            <attribute name="vig_outter"    data="FLOAT" type="RENDERER" value=0.85 />
-            <attribute name="vig_inner"     data="FLOAT" type="RENDERER" value=0.4 />
-            <attribute name="vig_opacity"   data="FLOAT" type="RENDERER" value=0.25 />
+            <attribute name="vig_outter"    data="FLOAT"    type="RENDERER" value=0.85 />
+            <attribute name="vig_inner"     data="FLOAT"    type="RENDERER" value=0.4 />
+            <attribute name="vig_opacity"   data="FLOAT"    type="RENDERER" value=0.3 />
             <!--Grass-->
-            <attribute name="translucency"  data="FLOAT" type="RENDERER" value=1.25 />
-            <attribute name="scattering"    data="FLOAT" type="RENDERER" value=90.0 />
+            <attribute name="translucency"  data="FLOAT"    type="RENDERER" value=1.25 />
+            <attribute name="scattering"    data="FLOAT"    type="RENDERER" value=90.0 />
+            <!--Terrain-->
+            <attribute name="specularity"   data="INT"      type="RENDERER" value=32 />
+            <attribute name="tiling"        data="VEC2"     type="RENDERER" x=1.0 y=1.0 />
 		</attributes>
 		
         <scenes>
@@ -80,6 +83,7 @@
 			<materialLib filename="materials/skybox.mlib" />
             <materialLib filename="materials/postprocess.mlib" />
             <materialLib filename="materials/grass.mlib" />
+            <materialLib filename="materials/terrain.mlib" />
 		</materialLibs>
     </assets>
 
@@ -106,7 +110,7 @@
 				</injectionMaps>
                 <materialMaps>
                     <map fromMaterial="*"
-                         toMaterial="mat_grass" toLibrary="Grass"/>
+                         toMaterial="mat_terrain" toLibrary="Terrain"/>
 					<map fromMaterial="mat_skybox" 
                          toMaterial="mat_skybox" toLibrary="Lighting#Pass"/>
 				</materialMaps>
@@ -170,9 +174,11 @@
             <var label="Vignette inner" type="RENDERER" context="CURRENT" component="vig_inner" def="min=0 max=1 step=0.01" />
             <var label="Vignette opacity" type="RENDERER" context="CURRENT" component="vig_opacity" def="min=0 max=1 step=0.01" />
         </window>
-        <window label="Grass"> 
-            <var label="Scattering" type="RENDERER" context="CURRENT" component="scattering" def="min=0 max=200" /> 
-            <var label="Translucency" type="RENDERER" context="CURRENT" component="translucency" def="min=0 max=10 step=0.01"/> 
+        <window label="Terrain"> 
+            <var label="Terrain Tiling" type="RENDERER" context="CURRENT" component="tiling" />
+            <var label="Terrain Specularity" type="RENDERER" context="CURRENT" component="specularity" def="min=0" />
+            <var label="Grass Scattering" type="RENDERER" context="CURRENT" component="scattering" def="min=0 max=200" /> 
+            <var label="Grass Translucency" type="RENDERER" context="CURRENT" component="translucency" def="min=0 max=10 step=0.01"/> 
         </window>
     </interface>   
 </project>
