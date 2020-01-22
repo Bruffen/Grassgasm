@@ -6,9 +6,21 @@
 		<texture name="dirt_norm" filename="../textures/dirt_norm.jpg" mipmap=true />
 		<texture name="dirt_roug" filename="../textures/dirt_roug.jpg" mipmap=true />
         <!--Rock-->
-		<texture name="rock_diff" filename="../textures/rock_diff.jpg" mipmap=true />
-		<texture name="rock_norm" filename="../textures/rock_norm.jpg" mipmap=true />
-		<texture name="rock_roug" filename="../textures/rock_roug.jpg" mipmap=true />
+		<texture name="rock_diff" filename="../textures/rock4_diff.png" mipmap=true />
+		<texture name="rock_norm" filename="../textures/rock4_norm.png" mipmap=true />
+		<texture name="rock_roug" filename="../textures/rock4_roug.png" mipmap=true />
+        <!--Grass-->
+		<texture name="grass_diff" filename="../textures/grass_diff.png" mipmap=true />
+		<texture name="grass_norm" filename="../textures/grass_norm.png" mipmap=true />
+		<texture name="grass_roug" filename="../textures/grass_roug.png" mipmap=true />
+        <!--Sand-->
+		<texture name="sand_diff" filename="../textures/sand_diff.png" mipmap=true />
+		<texture name="sand_norm" filename="../textures/sand_norm.png" mipmap=true />
+		<texture name="sand_roug" filename="../textures/sand_roug.png" mipmap=true />
+        <!--Snow-->
+		<texture name="snow_diff" filename="../textures/snow_roug.jpg" mipmap=true />
+		<texture name="snow_norm" filename="../textures/snow_norm.jpg" mipmap=true />
+		<texture name="snow_roug" filename="../textures/snow_roug.jpg" mipmap=true />
     </textures>
 
 	<shaders>
@@ -33,6 +45,15 @@
                     <valueof uniform="rock_diff" type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id=3 />
                     <valueof uniform="rock_norm" type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id=4 />
                     <valueof uniform="rock_roug" type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id=5 />
+                    <valueof uniform="grass_diff" type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id=6 />
+                    <valueof uniform="grass_norm" type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id=7 />
+                    <valueof uniform="grass_roug" type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id=8 />
+                    <valueof uniform="sand_diff" type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id=9 />
+                    <valueof uniform="sand_norm" type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id=10 />
+                    <valueof uniform="sand_roug" type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id=11 />
+                    <valueof uniform="snow_diff" type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id=12 />
+                    <valueof uniform="snow_norm" type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id=13 />
+                    <valueof uniform="snow_roug" type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id=14 />
                     <valueof uniform="specularity" type="RENDERER" context="CURRRENT" component="specularity" />
                     <valueof uniform="tiling"    type="RENDERER" context="CURRRENT" component="tiling" />
 				</values>
@@ -44,6 +65,15 @@
                 <texture name="rock_diff" UNIT=3 />
                 <texture name="rock_norm" UNIT=4 />
                 <texture name="rock_roug" UNIT=5 />
+                <texture name="grass_diff" UNIT=6 />
+                <texture name="grass_norm" UNIT=7 />
+                <texture name="grass_roug" UNIT=8 />
+                <texture name="sand_diff" UNIT=9 />
+                <texture name="sand_norm" UNIT=10 />
+                <texture name="sand_roug" UNIT=11 />
+                <texture name="snow_diff" UNIT=12 />
+                <texture name="snow_norm" UNIT=13 />
+                <texture name="snow_roug" UNIT=14 />
             </textures>
 		</material>
 	</materials>

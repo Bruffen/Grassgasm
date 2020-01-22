@@ -43,11 +43,10 @@
                 <geometry name = "sphere" type = "SPHERE" />
                 <TRANSLATE x=0 y=0 z=-1 />
             </scene>
-            <scene name = "Plane">
-                <geometry name = "plane" type = "SQUARE" />
-                <SCALE x=100 y=1 z=100 />
-                <TRANSLATE x=0 y=-2 z=0 />
-            </scene>
+			<scene name="Plane">
+				<geometry name = "plane" type = "GRID" DIVISIONS=300 LENGTH=6 />
+                <SCALE x=100 y=100 z=100 />
+			</scene>
             <scene name = "Leaf">
                 <geometry name = "plane" type = "SQUARE" material="mat_grass"/>
                 <SCALE x=1 y=1 z=1 />
@@ -126,9 +125,7 @@
                 <renderTarget name="Brightness" fromLibrary="PostProcessing" />
 			</pass>
             <pass class="quad" name="PostProcess_Lens">
-                <!--camera name="MainCamera" />
-				<viewport name="MainViewport" /-->
-				<materialMaps>
+                <materialMaps>
 				    <map fromMaterial="__Quad" toMaterial="mat_lensflare" toLibrary="PostProcessing"/>
 				</materialMaps>
                 <renderTarget name="LensFlare" fromLibrary="PostProcessing" />
