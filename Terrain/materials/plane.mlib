@@ -2,7 +2,10 @@
 <materialLib name="Plane">
 	<shaders>
 		<shader name="planeHeight" 		vs = "../shaders/planeVert.vert" 
-										ps = "../shaders/planeFrag.frag" />
+										ps = "../shaders/planeFrag.frag" 
+										tc = "../shaders/planeTess.tesc"
+										te = "../shaders/planeTess.tese"
+										/>
 	</shaders>
 	
 	<materials>
@@ -12,7 +15,12 @@
 					<valueof uniform="m_pvm" block="Matrices"
 							 type="RENDERER" context="CURRENT" 
 							 component="PROJECTION_VIEW_MODEL" />
-							 
+					<valueof uniform="m_vm" 
+							 type="RENDERER" context="CURRENT" 
+							 component="VIEW_MODEL" />
+					<valueof uniform="m_pv" 
+							 type="RENDERER" context="CURRENT" 
+							 component="PROJECTION_VIEW" />
 					<valueof uniform="m_normal" block="Matrices" 
 							 type="RENDERER" context="CURRENT" 
 							 component="NORMAL" />
@@ -28,6 +36,10 @@
 					<valueof uniform="l_dir" block="Light"
 							 type="LIGHT" context="Sun"
 							 component="DIRECTION" />
+					
+					<valueof uniform="projViewModelMatrix"  type="RENDERER" context="CURRENT" 
+											component="PROJECTION_VIEW_MODEL" />
+														
 				</values>
 			</shader>
 		</material>

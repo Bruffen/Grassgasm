@@ -13,12 +13,7 @@ layout (std140) uniform Light {
 in vec4 position;	// local space
 in vec3 normal;		// local space
 
-// the data to be sent to the fragment shader
-out Data {
-	vec3 normal;
-    vec4 position;
-	vec3 l_dir;
-} DataOut;
+
 
 // 2D Random
 float random (in vec2 st) {
@@ -161,21 +156,13 @@ float mynoise(vec2 points){
   {
     result += (1.0/pow(2,i))*perlin(points,pow(2,i),seed+i*100);
   }
-  return result/3;
+  return 0*result/3;
 }
 
 
 
+
 void main () {
-	
-	DataOut.l_dir = normalize(vec3(m_view * -l_dir));
-  vec4 p = position;
-  p.y += mynoise(vec2(position.x,position.z)); 
-  float OFFSET = 0.025;
-  vec3 f_H = vec3 (position.x+OFFSET,mynoise(vec2(position.x+OFFSET,position.z)),position.z);
-  vec3 s_H = vec3 (position.x, mynoise(vec2(position.x,position.z+OFFSET)),position.z+OFFSET);
-  vec3 calcNormal = normalize(cross(s_H-p.xyz,f_H-p.xyz));
-	DataOut.normal = normalize(m_normal * calcNormal);
-	gl_Position = m_pvm * (p);	
-  DataOut.position = position;
+  vec4 cameraPosition = m_pvm[3];
+	gl_Position = position;	
 }

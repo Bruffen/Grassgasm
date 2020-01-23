@@ -4,7 +4,7 @@
 		
 		<scenes>
 			<scene name = "plane">
-				<geometry name = "plane" type = "GRID" DIVISIONS=500 LENGTH=10 >
+				<geometry name = "plane" type = "GRID" DIVISIONS=10 LENGTH=5 >
 				</geometry> 
 			</scene>
         </scenes>
