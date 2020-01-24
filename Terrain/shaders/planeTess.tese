@@ -122,7 +122,7 @@ float custom_noise(vec2 points,float dim, float seed){
 
 float mynoise(vec2 points){
   
-  points = points+(1500,1500);
+  points = points/10;
   float seed = 100;
   float result = 0; 
   for(int i=0;i<10;++i)
@@ -130,7 +130,7 @@ float mynoise(vec2 points){
     result += (1.0/pow(2,i))*perlin(points,pow(2,i),seed+i*100);
   }
   //return smoothstep(0.0,1.6,result);
-  return pow(result-0.8,2)/6;
+  return pow(result-0.8,2);
 }
 
 void main() {
@@ -145,14 +145,14 @@ void main() {
 	float OFFSET = distance(p2,p3)/100;
 
 	vec4 p = pos;
-  	p.y += mynoise(vec2(pos.x,pos.z)); 
-  	vec3 f_H = vec3 (p.x+OFFSET,mynoise(vec2(p.x+OFFSET,p.z)),p.z);
-  	vec3 r_H = vec3 (p.x,mynoise(vec2(p.x,p.z+OFFSET)),p.z+OFFSET);
-	vec3 b_H = vec3 (p.x-OFFSET,mynoise(vec2(p.x-OFFSET,p.z)),p.z);
-  	vec3 l_H = vec3 (p.x,mynoise(vec2(p.x,p.z-OFFSET)),p.z-OFFSET);
-  	vec3 calcNormal = normalize(cross(p.xyz-l_H,p.xyz-b_H)+cross(p.xyz-r_H,p.xyz-f_H));
+  p.y += mynoise(vec2(pos.x,pos.z)); 
+  //	vec3 f_H = vec3 (p.x+OFFSET,mynoise(vec2(p.x+OFFSET,p.z)),p.z);
+  //	vec3 r_H = vec3 (p.x,mynoise(vec2(p.x,p.z+OFFSET)),p.z+OFFSET);
+	//vec3 b_H = vec3 (p.x-OFFSET,mynoise(vec2(p.x-OFFSET,p.z)),p.z);
+  //	vec3 l_H = vec3 (p.x,mynoise(vec2(p.x,p.z-OFFSET)),p.z-OFFSET);
+  //	vec3 calcNormal = cross(p.xyz-l_H,p.xyz-b_H)+cross(p.xyz-r_H,p.xyz-f_H);
 	  
-	DataOut.normal = normalize(m_normal * calcNormal);
+	//DataOut.normal = normalize(m_normal * calcNormal);
 
 	DataOut.position = p;
 

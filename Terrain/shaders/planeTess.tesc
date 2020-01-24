@@ -11,7 +11,7 @@ layout (std140) uniform Matrices {
 
 out vec4 posTC[];
 
-uniform float olevel = 64.0, ilevel= 64.0;
+uniform float olevel = 32.0, ilevel= 32.0;
 uniform vec4 position;
 
 void main() {
