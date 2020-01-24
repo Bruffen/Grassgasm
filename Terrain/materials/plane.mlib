@@ -36,6 +36,10 @@
 					<valueof uniform="l_dir" block="Light"
 							 type="LIGHT" context="Sun"
 							 component="DIRECTION" />
+
+					<valueof uniform="camposition" 
+							 type="CAMERA" context="CURRENT"
+							 component="POSITION" />
 					
 					<valueof uniform="projViewModelMatrix"  type="RENDERER" context="CURRENT" 
 											component="PROJECTION_VIEW_MODEL" />

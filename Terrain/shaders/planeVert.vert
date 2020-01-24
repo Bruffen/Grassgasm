@@ -13,7 +13,7 @@ layout (std140) uniform Light {
 in vec4 position;	// local space
 in vec3 normal;		// local space
 
-
+uniform vec4 camposition;
 
 // 2D Random
 float random (in vec2 st) {
@@ -164,5 +164,6 @@ float mynoise(vec2 points){
 
 void main () {
   vec4 cameraPosition = m_pvm[3];
-	gl_Position = position;	
+  vec4 posp =  position + vec4(camposition[0],0,camposition[2],0) ;
+	gl_Position = vec4(posp.x,0,posp.z,1);	
 }

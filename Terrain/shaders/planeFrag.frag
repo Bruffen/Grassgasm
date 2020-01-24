@@ -31,6 +31,6 @@ void main()
 	n = normalize(normal);
 	// no need to normalize the light direction!
 	intensity = max(dot(l,n),0.0);
-	
+
     outputF = (0.75*intensity+0.15) * vec4 (0.72,0.58,0.38,1);
 }
