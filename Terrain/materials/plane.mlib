@@ -43,6 +43,10 @@
 					
 					<valueof uniform="projViewModelMatrix"  type="RENDERER" context="CURRENT" 
 											component="PROJECTION_VIEW_MODEL" />
+					<valueof uniform="tess_maxDistance" type="RENDERER" context="CURRENT" component="tess_maxDistance" />
+					<valueof uniform="tess_maxOLevel" type="RENDERER" context="CURRENT" component="tess_maxOLevel" />
+					<valueof uniform="tess_maxILevel" type="RENDERER" context="CURRENT" component="tess_maxILevel" />
+					<valueof uniform="tess_outOfScreen" type="RENDERER" context="CURRENT" component="tess_outOfScreen" />
 														
 				</values>
 			</shader>

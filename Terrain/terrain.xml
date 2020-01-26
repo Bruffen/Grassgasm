@@ -1,10 +1,16 @@
 <?xml version="1.0" ?>
 <project name="Terrain" width = "1280" height = "720">
     <assets>
-		
+		<attributes>
+			<attribute name="tess_maxDistance" data="FLOAT" type="RENDERER" value=40 />
+			<attribute name="tess_maxOLevel"   data="INT" 	type="RENDERER" value=45 />
+			<attribute name="tess_maxILevel"   data="INT" 	type="RENDERER" value=45 />
+			<attribute name="tess_outOfScreen" data="FLOAT" type="RENDERER" value=10 />
+		</attributes>
+
 		<scenes>
 			<scene name = "plane">
-				<geometry name = "plane" type = "GRID" DIVISIONS=10 LENGTH=10>
+				<geometry name = "plane" type = "GRID" DIVISIONS=60 LENGTH=50>
 				</geometry>
 			</scene>
         </scenes>
@@ -21,7 +27,7 @@
 				<TYPE value="PERSPECTIVE"/>
 				<FOV value=60/>
 				<NEAR value= 0.1/>
-				<FAR value= 100/>
+				<FAR value= 1000/>
 				<POSITION x=-1.914014 y=0.492289 z=1.460414 />
 				<VIEW x=0.810088 y=-0.208939 z=-0.547815 />
 			</camera>
@@ -56,4 +62,12 @@
 			</pass>
 		</pipeline>
 	</pipelines>
+	<interface>
+		<window label="Terrain">
+	        <var label="Tess max dist" type="RENDERER" context="CURRENT" component="tess_maxDistance" def="min=0"/> 
+	        <var label="Tess max near" type="RENDERER" context="CURRENT" component="tess_outOfScreen" def="min=0 step=0.1" /> 
+	        <var label="Tess max olevel" type="RENDERER" context="CURRENT" component="tess_maxOLevel" def="min=0"/> 
+	        <var label="Tess max ilevel" type="RENDERER" context="CURRENT" component="tess_maxILevel" def="min=0"/> 
+        </window>
+    </interface>  
 </project>

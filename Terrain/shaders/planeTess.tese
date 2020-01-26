@@ -1,6 +1,6 @@
 #version 410
 
-layout(triangles, equal_spacing, ccw) in;
+layout(quads, equal_spacing, ccw) in;
 
 layout (std140) uniform Matrices {
 	mat4 m_pvm;
@@ -156,6 +156,6 @@ void main() {
 
 	DataOut.position = p;
 
-	gl_Position = m_pv *  p;
+	gl_Position = m_pvm * p;
 }
 
