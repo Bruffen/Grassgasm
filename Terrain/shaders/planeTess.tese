@@ -12,14 +12,14 @@ uniform mat4 m_vm;
 uniform mat4 m_pv;
 
 uniform vec4 position;
-
+uniform int detail = 10;
 in vec4 posTC[];
-
 // the data to be sent to the fragment shader
 out Data {
 	vec3 normal;
-  	vec4 position;
+  vec4 position;
 } DataOut;
+
 
 
 vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
@@ -125,7 +125,7 @@ float mynoise(vec2 points){
   points = points/10;
   float seed = 100;
   float result = 0; 
-  for(int i=0;i<10;++i)
+  for(int i=0;i<detail;++i)
   {
     result += (1.0/pow(2,i))*perlin(points,pow(2,i),seed+i*100);
   }
@@ -144,13 +144,13 @@ void main() {
 	vec4 p3 = posTC[0]*0.5 + posTC[2]*v;
 	float OFFSET = distance(p2,p3)/100;
 
-	vec4 p = pos;
+	vec4 p = pos; 
   p.y += mynoise(vec2(pos.x,pos.z)); 
-  //	vec3 f_H = vec3 (p.x+OFFSET,mynoise(vec2(p.x+OFFSET,p.z)),p.z);
-  //	vec3 r_H = vec3 (p.x,mynoise(vec2(p.x,p.z+OFFSET)),p.z+OFFSET);
+  //vec3 f_H = vec3 (p.x+OFFSET,mynoise(vec2(p.x+OFFSET,p.z)),p.z);
+  //vec3 r_H = vec3 (p.x,mynoise(vec2(p.x,p.z+OFFSET)),p.z+OFFSET);
 	//vec3 b_H = vec3 (p.x-OFFSET,mynoise(vec2(p.x-OFFSET,p.z)),p.z);
-  //	vec3 l_H = vec3 (p.x,mynoise(vec2(p.x,p.z-OFFSET)),p.z-OFFSET);
-  //	vec3 calcNormal = cross(p.xyz-l_H,p.xyz-b_H)+cross(p.xyz-r_H,p.xyz-f_H);
+  //vec3 l_H = vec3 (p.x,mynoise(vec2(p.x,p.z-OFFSET)),p.z-OFFSET);
+  //vec3 calcNormal = cross(p.xyz-l_H,p.xyz-b_H)+cross(p.xyz-r_H,p.xyz-f_H);
 	  
 	//DataOut.normal = normalize(m_normal * calcNormal);
 

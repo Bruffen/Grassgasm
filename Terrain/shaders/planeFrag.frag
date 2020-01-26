@@ -18,7 +18,7 @@ in Data{
 	vec3 normal;
     vec4 position;
 };
-
+uniform int detail = 10;
 out vec4 outputF;
 
 #define M_PI 3.14159265358979323846
@@ -55,7 +55,7 @@ float mynoise(vec2 points){
   points = points/10;
   float seed = 100;
   float result = 0; 
-  for(int i=0;i<10;++i)
+  for(int i=0;i<detail;++i)
   {
     result += (1.0/pow(2,i))*perlin(points,pow(2,i),seed+i*100);
   }

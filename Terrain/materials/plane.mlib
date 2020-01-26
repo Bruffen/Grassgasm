@@ -47,7 +47,8 @@
 					<valueof uniform="tess_maxOLevel" type="RENDERER" context="CURRENT" component="tess_maxOLevel" />
 					<valueof uniform="tess_maxILevel" type="RENDERER" context="CURRENT" component="tess_maxILevel" />
 					<valueof uniform="tess_outOfScreen" type="RENDERER" context="CURRENT" component="tess_outOfScreen" />
-														
+					<valueof uniform="detail" type="RENDERER" context="CURRENT" component="detail" />
+							
 				</values>
 			</shader>
 		</material>

@@ -6,6 +6,7 @@
 			<attribute name="tess_maxOLevel"   data="INT" 	type="RENDERER" value=45 />
 			<attribute name="tess_maxILevel"   data="INT" 	type="RENDERER" value=45 />
 			<attribute name="tess_outOfScreen" data="FLOAT" type="RENDERER" value=10 />
+			<attribute name="detail" data="INT" type="RENDERER" value=10 />
 		</attributes>
 
 		<scenes>
@@ -68,6 +69,7 @@
 	        <var label="Tess max near" type="RENDERER" context="CURRENT" component="tess_outOfScreen" def="min=0 step=0.1" /> 
 	        <var label="Tess max olevel" type="RENDERER" context="CURRENT" component="tess_maxOLevel" def="min=0"/> 
 	        <var label="Tess max ilevel" type="RENDERER" context="CURRENT" component="tess_maxILevel" def="min=0"/> 
+			<var label="Detail in Perlin" type="RENDERER" context="CURRENT" component="detail" def="min=0 max=15"/> 
         </window>
     </interface>  
 </project>
