@@ -11,8 +11,7 @@
 
 		<scenes>
 			<scene name = "plane">
-				<geometry name = "plane" type = "GRID" DIVISIONS=60 LENGTH=50>
-				</geometry>
+				<file  name="models/Square.patch"/>
 			</scene>
         </scenes>
         

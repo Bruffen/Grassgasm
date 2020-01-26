@@ -139,9 +139,10 @@ void main() {
 	float v = gl_TessCoord.y;
 	float w = 1 - u - v;
 
-	vec4 pos = posTC[0]*w + posTC[1]*u + posTC[2]*v;
-	vec4 p2 = posTC[0]*0-5 + posTC[1] + posTC[2]*0.5;
-	vec4 p3 = posTC[0]*0.5 + posTC[2]*v;
+  vec4 p1 = mix(posTC[0],posTC[1],u);
+	vec4 p2 = mix(posTC[3],posTC[2],u);
+	vec4 pos = mix(p1, p2, v);
+	
 	float OFFSET = 0.00005;// distance(p2,p3)/100;
 
 	vec4 p = pos; 

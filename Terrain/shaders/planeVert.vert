@@ -164,6 +164,6 @@ float mynoise(vec2 points){
 
 void main () {
   vec4 cameraPosition = m_pvm[3];
-  vec4 posp =  position; //+ vec4(floor(camposition.x),0,floor(camposition.z),0) ;
+  vec4 posp =  position + vec4(floor(camposition.x),0,floor(camposition.z),0) ;
 	gl_Position = vec4(posp.x,0,posp.z,1);	
 }
