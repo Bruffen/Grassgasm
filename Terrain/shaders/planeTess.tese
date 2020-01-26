@@ -142,17 +142,17 @@ void main() {
 	vec4 pos = posTC[0]*w + posTC[1]*u + posTC[2]*v;
 	vec4 p2 = posTC[0]*0-5 + posTC[1] + posTC[2]*0.5;
 	vec4 p3 = posTC[0]*0.5 + posTC[2]*v;
-	float OFFSET = distance(p2,p3)/100;
+	float OFFSET = 0.00005;// distance(p2,p3)/100;
 
 	vec4 p = pos; 
   p.y += mynoise(vec2(pos.x,pos.z)); 
-  //vec3 f_H = vec3 (p.x+OFFSET,mynoise(vec2(p.x+OFFSET,p.z)),p.z);
-  //vec3 r_H = vec3 (p.x,mynoise(vec2(p.x,p.z+OFFSET)),p.z+OFFSET);
-	//vec3 b_H = vec3 (p.x-OFFSET,mynoise(vec2(p.x-OFFSET,p.z)),p.z);
-  //vec3 l_H = vec3 (p.x,mynoise(vec2(p.x,p.z-OFFSET)),p.z-OFFSET);
-  //vec3 calcNormal = cross(p.xyz-l_H,p.xyz-b_H)+cross(p.xyz-r_H,p.xyz-f_H);
+  vec3 f_H = vec3 (0+OFFSET,mynoise(vec2(p.x+OFFSET,p.z)),0);
+  vec3 r_H = vec3 (0,mynoise(vec2(p.x,p.z+OFFSET)),0+OFFSET);
+	vec3 b_H = vec3 (0-OFFSET,mynoise(vec2(p.x-OFFSET,p.z)),0);
+  vec3 l_H = vec3 (0,mynoise(vec2(p.x,p.z-OFFSET)),0-OFFSET);
+  vec3 calcNormal = cross((0,p.y,0)-l_H,(0,p.y,0)-b_H)+cross((0,p.y,0)-r_H,(0,p.y,0)-f_H);
 	  
-	//DataOut.normal = normalize(m_normal * calcNormal);
+	DataOut.normal = normalize(calcNormal);
 
 	DataOut.position = p;
 
