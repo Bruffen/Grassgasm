@@ -66,9 +66,9 @@ calcSunScreenPosition = function()
 
     sunpos = { light_screenPos[1] * 0.5 + 0.5, light_screenPos[2] * 0.5 + 0.5}
     print(sunpos)
-    setAttr("RENDERER", "CURRENT", "m_proj", 0, m_proj)
-    setAttr("RENDERER", "CURRENT", "m_view", 0, m_view)
-    setAttr("RENDERER", "CURRENT", "m_pv", 0, m_pv)
+    --setAttr("RENDERER", "CURRENT", "m_proj", 0, m_proj)
+    --setAttr("RENDERER", "CURRENT", "m_view", 0, m_view)
+    --setAttr("RENDERER", "CURRENT", "m_pv", 0, m_pv)
     setAttr("RENDERER", "CURRENT", "sun_screenPos", 0, sunpos)
 end
 

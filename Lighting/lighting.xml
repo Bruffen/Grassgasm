@@ -30,29 +30,34 @@
             <!--Terrain-->
             <attribute name="specularity"   data="INT"      type="RENDERER" value=32 />
             <attribute name="tiling"        data="VEC2"     type="RENDERER" x=1.0 y=1.0 />
+			<attribute name="detail"        data="INT"      type="RENDERER" value=10 />
+            <attribute name="tess_maxDistance" data="FLOAT" type="RENDERER" value=40 />
+			<attribute name="tess_maxOLevel"   data="INT" 	type="RENDERER" value=45 />
+			<attribute name="tess_maxILevel"   data="INT" 	type="RENDERER" value=45 />
+			<attribute name="tess_outOfScreen" data="FLOAT" type="RENDERER" value=10 />
 		</attributes>
 		
         <scenes>
             <scene name = "Skybox">
                 <geometry name = "cube_skybox" type = "BOX" material="mat_skybox"/>
             </scene>
-            <scene name = "Axis">
+            <!--scene name = "Axis">
                 <geometry name = "axis" type = "AXIS" />
-            </scene>
-            <scene name = "Sphere">
+            </scene-->
+            <!--scene name = "Sphere">
                 <geometry name = "sphere" type = "SPHERE" />
                 <TRANSLATE x=0 y=0 z=-1 />
-            </scene>
+            </scene-->
 			<scene name="Plane">
-				<geometry name = "plane" type = "GRID" DIVISIONS=300 LENGTH=6 />
-                <SCALE x=100 y=100 z=100 />
+				<file name="models/Square.patch"/>
+                <!--TRANSLATE x=0 y=-10 z=0 /-->
 			</scene>
-            <scene name = "Leaf">
+            <!--scene name = "Leaf">
                 <geometry name = "plane" type = "SQUARE" material="mat_grass"/>
                 <SCALE x=1 y=1 z=1 />
                 <ROTATE x=1 y=0 z=-1 w=90 />
                 <TRANSLATE x=-5 y=-1 z=-5 />
-            </scene>
+            </scene-->
         </scenes>
 
         <viewports>
@@ -92,10 +97,10 @@
                 <preScript file="scripts/setup.lua" script="calcSunScreenPosition" />
                 <scenes>
                     <scene name="Skybox" />
-                    <scene name="Axis" />
+                    <!--scene name="Axis" />
                     <scene name="Sphere" />
+                    <scene name="Leaf" /-->
                     <scene name="Plane" />
-                    <scene name="Leaf" />
                 </scenes>
                 <camera name="MainCamera" />
                 <viewport name="MainViewport" />
@@ -113,12 +118,12 @@
 					<map fromMaterial="mat_skybox" 
                          toMaterial="mat_skybox" toLibrary="Lighting#Pass"/>
 				</materialMaps>
-                <renderTarget name="Source" fromLibrary="PostProcessing" />
             </pass>
 
             <!-- Post Processing -->
 
-            <pass class="quad" name="PostProcess_Setup">
+            <!--pass class="quad" name="PostProcess_Setup">
+                <renderTarget name="Source" fromLibrary="PostProcessing" />
 				<materialMaps>
 				    <map fromMaterial="__Quad" toMaterial="mat_brightness" toLibrary="PostProcessing"/>
 				</materialMaps>
@@ -142,7 +147,7 @@
 				<materialMaps>
 					<map fromMaterial="__Quad" toMaterial="mat_radialblur" toLibrary="PostProcessing"/>
 				</materialMaps>
-			</pass>
+			</pass-->
         </pipeline>
     </pipelines>
 
@@ -175,7 +180,12 @@
             <var label="Terrain Tiling" type="RENDERER" context="CURRENT" component="tiling" />
             <var label="Terrain Specularity" type="RENDERER" context="CURRENT" component="specularity" def="min=0" />
             <var label="Grass Scattering" type="RENDERER" context="CURRENT" component="scattering" def="min=0 max=200" /> 
-            <var label="Grass Translucency" type="RENDERER" context="CURRENT" component="translucency" def="min=0 max=10 step=0.01"/> 
+            <var label="Grass Translucency" type="RENDERER" context="CURRENT" component="translucency" def="min=0 max=10 step=0.01"/>
+            <var label="Tess max dist" type="RENDERER" context="CURRENT" component="tess_maxDistance" def="min=0"/> 
+	        <var label="Tess max near" type="RENDERER" context="CURRENT" component="tess_outOfScreen" def="min=0 step=0.1" /> 
+	        <var label="Tess max olevel" type="RENDERER" context="CURRENT" component="tess_maxOLevel" def="min=0"/> 
+	        <var label="Tess max ilevel" type="RENDERER" context="CURRENT" component="tess_maxILevel" def="min=0"/> 
+			<var label="Detail in Perlin" type="RENDERER" context="CURRENT" component="detail" def="min=0 max=15"/> 
         </window>
     </interface>   
 </project>

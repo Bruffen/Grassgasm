@@ -2,25 +2,30 @@
 
 layout(quads, equal_spacing, cw) in;
 
-layout (std140) uniform Matrices {
-	mat4 m_pvm;
-	mat4 m_view;
-	mat3 m_normal;
-};
-
+uniform mat4 m_pvm;
+uniform mat4 m_view;
+uniform mat4 m_viewModel;
+uniform mat3 m_normal;
+uniform mat4 m_model;
 uniform mat4 m_vm; 
 uniform mat4 m_pv;
-
 uniform vec4 position;
 uniform int detail = 10;
 in vec4 posTC[];
-// the data to be sent to the fragment shader
-out Data {
-	vec3 normal;
-  vec4 position;
-} DataOut;
 
+in data {
+    vec3 ldir;
+    vec3 eye;
+    vec2 uv;
+} i[];
 
+out data {
+    vec4 position;
+    vec4 worldPos;
+    vec3 ldir;
+    vec3 eye;
+    vec2 uv;
+} o;
 
 vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
 
@@ -139,24 +144,39 @@ void main() {
 	float v = gl_TessCoord.y;
 	float w = 1 - u - v;
 
-  vec4 p1 = mix(posTC[0],posTC[3],u);
-	vec4 p2 = mix(posTC[1],posTC[2],u);
+    vec4 p1 = mix(posTC[0], posTC[3], u);
+	vec4 p2 = mix(posTC[1], posTC[2], u);
 	vec4 pos = mix(p1, p2, v);
+	
+    vec2 uv1 = mix(i[0].uv, i[3].uv, u);
+    vec2 uv2 = mix(i[1].uv, i[2].uv, u);
+    o.uv = mix(uv1, uv2, v);
 	
 	float OFFSET = 0.00005;// distance(p2,p3)/100;
 
 	vec4 p = pos; 
-  p.y += mynoise(vec2(pos.x,pos.z)); 
-  vec3 f_H = vec3 (0+OFFSET,mynoise(vec2(p.x+OFFSET,p.z)),0);
-  vec3 r_H = vec3 (0,mynoise(vec2(p.x,p.z+OFFSET)),0+OFFSET);
-	vec3 b_H = vec3 (0-OFFSET,mynoise(vec2(p.x-OFFSET,p.z)),0);
-  vec3 l_H = vec3 (0,mynoise(vec2(p.x,p.z-OFFSET)),0-OFFSET);
-  vec3 calcNormal = cross((0,p.y,0)-l_H,(0,p.y,0)-b_H)+cross((0,p.y,0)-r_H,(0,p.y,0)-f_H);
-	  
-	DataOut.normal = normalize(calcNormal);
+    p.y += mynoise(vec2(pos.x,pos.z));
 
-	DataOut.position = p;
+    /* 
+     * Stuff for normal map 
+     * Can't get it to work because of no tangent
+     * and binormals in tessellation shader
+	vec3 n = normalize(m_normal * calcNormal);
+	vec3 t = normalize(m_normal * tangent);
+	vec3 b = normalize(cross(n, t));
+	t = cross(n,b);
 
+	mat3 tbn_inv = transpose(mat3(t, b, n));
+
+    o.worldPos = (m_model * p).xyz;
+    o.worldNormal = normalize(m_model * vec4(calcNormal, 0)).xyz;
+    o.ldir = normalize(tbn_inv * (m_view * vec4(-light_dir, 0)).xyz);
+    o.eye = tbn_inv * vec3(m_viewModel * -p);
+    o.uv = texCoord0;
+     */
+
+    o.eye = /*tbn_inv **/ vec3(m_viewModel * -p);
+	o.position = p;
+    o.worldPos = m_model * p;
 	gl_Position = m_pvm * p;
 }
-

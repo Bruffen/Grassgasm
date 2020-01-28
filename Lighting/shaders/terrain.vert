@@ -2,10 +2,8 @@
 
 uniform mat4 m_pvm;
 uniform mat4 m_view;
-uniform mat4 m_model;
-uniform mat4 m_viewModel;
-uniform mat3 m_normal;
 uniform vec3 light_dir;
+uniform vec4 camposition;
 
 in vec4 position;
 in vec3 tangent;
@@ -13,10 +11,12 @@ in vec3 normal;
 in vec2 texCoord0;
 
 out data {
-    vec3 worldPos;
-    vec3 worldNormal;
+    //vec3 worldPos;
+    //vec3 worldNormal;
     vec3 ldir;
     vec3 eye;
+    //vec3 tangent;
+    //vec3 normal;
     vec2 uv;
 } o;
 
@@ -166,28 +166,11 @@ float mynoise(vec2 points){
 
 void main()
 {
-    /* Zé stuff */
-    vec4 p = position;
-    p.y += mynoise(vec2(position.x,position.z)); 
-    float OFFSET = 0.025;
-    vec3 f_H = vec3 (position.x+OFFSET,mynoise(vec2(position.x+OFFSET,position.z)),position.z);
-    vec3 s_H = vec3 (position.x, mynoise(vec2(position.x,position.z+OFFSET)),position.z+OFFSET);
-    vec3 calcNormal = normalize(cross(s_H-p.xyz,f_H-p.xyz));
+    vec4 cameraPosition = m_pvm[3];
+    vec4 posp = position + vec4(floor(camposition.x),0,floor(camposition.z),0);
 
-
-    /* Stuff for normal map */
-	vec3 n = normalize(m_normal * calcNormal);
-	vec3 t = normalize(m_normal * tangent);
-	vec3 b = normalize(cross(n, t));
-	t = cross(n,b);
-
-	mat3 tbn_inv = transpose(mat3(t, b, n));
-
-    o.worldPos = (m_model * p).xyz;
-    o.worldNormal = normalize(m_model * vec4(calcNormal, 0)).xyz;
-    o.ldir = normalize(tbn_inv * (m_view * vec4(-light_dir, 0)).xyz);
-    o.eye = tbn_inv * vec3(m_viewModel * -p);
     o.uv = texCoord0;
-    
-    gl_Position = m_pvm * p;
+    o.ldir = normalize(/*tbn_inv **/ (m_view * vec4(-light_dir, 0)).xyz);
+
+	gl_Position = vec4(posp.x,0,posp.z,1);
 }

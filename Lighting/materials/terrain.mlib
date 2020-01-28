@@ -26,7 +26,9 @@
 	<shaders>
         <shader name = "shader_terrain"
             vs = "../shaders/terrain.vert"
-            ps = "../shaders/terrain.frag" />
+            ps = "../shaders/terrain.frag"
+            tc = "../shaders/terrain.tesc"
+			te = "../shaders/terrain.tese" />
 	</shaders>
 	
 	<materials>
@@ -38,7 +40,15 @@
                     <valueof uniform="m_model"   type="RENDERER" context="CURRENT" component="MODEL" />
                     <valueof uniform="m_view"    type="RENDERER" context="CURRENT" component="VIEW" />
                     <valueof uniform="m_viewModel" type="RENDERER" context="CURRENT" component="VIEW_MODEL" />
+                	<valueof uniform="m_vm" type="RENDERER" context="CURRENT" component="VIEW_MODEL" />
+					<valueof uniform="m_pv" type="RENDERER" context="CURRENT" component="PROJECTION_VIEW" />
                     <valueof uniform="light_dir" type="LIGHT" context="Sun" component="DIRECTION" />
+                    <valueof uniform="camposition" type="CAMERA" context="CURRENT" component="POSITION" />
+                    <valueof uniform="tess_maxDistance" type="RENDERER" context="CURRENT" component="tess_maxDistance" />
+					<valueof uniform="tess_maxOLevel" type="RENDERER" context="CURRENT" component="tess_maxOLevel" />
+					<valueof uniform="tess_maxILevel" type="RENDERER" context="CURRENT" component="tess_maxILevel" />
+					<valueof uniform="tess_outOfScreen" type="RENDERER" context="CURRENT" component="tess_outOfScreen" />
+					<valueof uniform="detail" type="RENDERER" context="CURRENT" component="detail" />
                     <valueof uniform="dirt_diff" type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id=0 />
                     <valueof uniform="dirt_norm" type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id=1 />
                     <valueof uniform="dirt_roug" type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id=2 />
