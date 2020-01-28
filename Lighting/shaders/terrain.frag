@@ -137,10 +137,10 @@ void main()
   	vec3 r_H = vec3 (0,mynoise(vec2(p.x,p.z+OFFSET)),0+OFFSET);
 	vec3 b_H = vec3 (0-OFFSET,mynoise(vec2(p.x-OFFSET,p.z)),0);
 	vec3 l_H = vec3 (0,mynoise(vec2(p.x,p.z-OFFSET)),0-OFFSET);
-  	vec3 calcNormal = cross((0,p.y,0)-l_H,(0,p.y,0)-b_H)+cross((0,p.y,0)-r_H,(0,p.y,0)-f_H);
+  	vec3 calcNormal = normalize(cross((0,p.y,0)-l_H,(0,p.y,0)-b_H)+cross((0,p.y,0)-r_H,(0,p.y,0)-f_H));
 	vec3 n = normalize(m_normal * calcNormal);
     
-    float normalY   = smoothstep(0.4, 0.85, n.y);
+    float normalY   = smoothstep(0.4, 0.85, calcNormal.y);
     //float normalY   = smoothstep(0.4, 0.85, o.worldNormal.y);
     vec3 diffuse    = mix(v_diff, h_diff, normalY);
     //vec3 n          = mix(v_norm, h_norm, normalY);
@@ -153,5 +153,5 @@ void main()
 	float specular  = pow(max(dot(h, n), 0.0), specularity) * intensity;
     vec3 ambient = diffuse * 0.3;
     //color = vec4(clamp(ambient + diffuse * 0.8 * intensity + specular *  (1 - roughness), 0, 1), 1);
-    color = vec4(n, 1.0);
+    color = vec4(calcNormal, 1.0);
 }
