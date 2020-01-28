@@ -1,0 +1,70 @@
+<project name="Grass" width=512 height = 512>
+	<assets>
+		<attributes>
+			<attribute name="level" data="FLOAT" type="RENDERER" value=1 />
+			<attribute name="alpha" data="FLOAT" type="RENDERER" value=0.75 />
+		</attributes>
+		<scenes>
+            <scene name = "Grass">
+                <geometry name = "plane" type = "GRID" DIVISIONS=10 LENGTH=10 >
+                </geometry> 
+            </scene>
+        </scenes>
+
+		<viewports>
+			<viewport name="MainViewport">
+				<CLEAR_COLOR r="1.0" g="1.0" b="1.0" />
+			</viewport>
+		</viewports>
+		
+		<cameras>
+			<camera name="MainCamera" >
+				<viewport name="MainViewport" />
+				<projection TYPE="PERSPECTIVE" FOV="60.0" NEAR="0.3" FAR="100.0" />
+				<POSITION x="0" y="2.45" z="10" />
+				<VIEW x="0.289735" y="-0.389418" z="-0.874304" />
+				<UP x="0" y="1" z="0" />
+			</camera>
+		</cameras>
+		
+		<lights>
+			<light name="Sun" type="directional">
+				<DIRECTION x="1.0" y="-2.5" z="-2" />
+				<COLOR r="0.9" g="0.9" b="0.9" />
+				<AMBIENT r="0.3" g="0.3" b="0.3" />
+			</light>
+		</lights>
+		
+		<materialLibs>
+			<materialLib filename = "grass.mlib"/>
+		</materialLibs> 
+	</assets>
+	
+	<pipelines>
+		<pipeline name="Grass" default="true">
+			<pass class="default" name="pass1">
+				<scenes>
+					<scene name="Grass" />
+				</scenes>
+				<camera name="MainCamera" />
+				<lights>
+					<light name="Sun" />
+				</lights>
+                <injectionMaps>
+					<map toMaterial="*">
+						<shader fromMaterial="grasslib" fromLibrary="GrassLib" />
+					</map>
+				</injectionMaps>			
+			</pass>
+		</pipeline>
+	</pipelines>
+
+	<interface>
+		<window label="Main Window">
+			<var label="level" type="RENDERER" context="CURRENT" component="level" 
+				def="min=1 max=64 step=0.01"/>
+			<var label="alpha" type="RENDERER" context="CURRENT" component="alpha" 
+				def="min=0 max=2 step=0.01"/>
+		</window>
+	</interface>
+</project>
