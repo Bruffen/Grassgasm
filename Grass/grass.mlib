@@ -1,0 +1,68 @@
+<?xml version="1.0" ?>
+<materialLib name="GrassLib">	
+	<textures>
+		<texture name="wind" filename="Wind/wind.png" mipmap=true />
+		<texture name="color" filename="Wind/color.png" mipmap=true />
+	</textures>
+	<shaders>
+		<shader name="grasslib" 	vs="shaders/grass.vert" 
+								    gs="shaders/grass.geom"
+								    ps="shaders/grass.frag"	/>
+	</shaders>
+	<materials>
+		<material name="grasslib">
+			<shader name="grasslib">
+				<values>
+					<valueof uniform="m_pvm" 
+							 type="RENDERER" context="CURRENT" 
+							 component="PROJECTION_VIEW_MODEL" />
+
+                    <valueof uniform="m_model"     		
+                             type="RENDERER" context="CURRENT" 
+							 component="MODEL" />
+
+                    <valueof uniform="m_normal" 
+							 type="RENDERER" context="CURRENT" 
+							 component="NORMAL" />
+
+					<valueof uniform="m_viewModel" 
+							 type="RENDERER" context="CURRENT" 
+							 component="VIEW_MODEL" />
+
+					<valueof uniform="m_p" 
+							 type="RENDERER" context="CURRENT" 
+							 component="PROJECTION" />
+
+					<valueof uniform="wind"
+							 type="TEXTURE_BINDING" context="CURRENT"
+							 component="UNIT" id=0 />
+
+					<valueof uniform="color"
+							 type="TEXTURE_BINDING" context="CURRENT"
+							 component="UNIT" id=1 />
+
+					<valueof uniform="olevel" 		
+							 type="RENDERER" context="CURRENT" 
+	  						 component="level"  />
+														
+					<valueof uniform="ilevel" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="level"  />
+
+					<valueof uniform="alpha"		
+							 type="RENDERER" context="CURRENT"
+							 component="alpha"	/>	
+
+					<valueof uniform="timer"
+							 type="RENDERER" context="CURRENT"
+							 component="TIMER" />
+				</values>
+			</shader>
+			<textures>
+				<texture name="wind" UNIT = 0 />
+				<texture name="color" UNIT = 1 />
+			</textures>
+		</material>
+	</materials>
+
+</materialLib>
