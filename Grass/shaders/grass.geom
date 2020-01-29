@@ -2,15 +2,22 @@
 layout(triangles) in;
 layout(triangle_strip, max_vertices=200) out;
 
-uniform mat4 m_model;
 uniform mat4 m_pvm;
 uniform mat3 m_normal;
-uniform mat4 m_p;
 uniform mat4 m_viewModel;
 
 uniform sampler2D wind;
-
 uniform float timer;
+
+//Parameters
+uniform float minBend = 0.01;
+uniform float maxBend = 0.9;
+uniform float bendFactor;
+uniform float minHeight = 0.01;
+uniform float maxHeight = 0.8;
+uniform float minWidth = 0.01;
+uniform float maxWidth = 0.1;
+uniform float windStr = 0.5;
 
 out vec2 outUv;
 
@@ -20,7 +27,6 @@ in Data {
 	vec2 texCoord;
 } DataIn[3];
 
-//out vec3 nOut;
 
 float random(vec2 p)
 {
@@ -31,15 +37,11 @@ float random(vec2 p)
 	return fract(cos(dot(p, K1)) * 12345.6789);
 }
 
-/*
-float hash(vec2 co){
-  float t = 12.9898*co.x + 78.233*co.y; 
-  return fract((A2+t) * sin(t));  // any B2 is folded into 't' computation
-}
-*/
 
 float ScaleValue(float min, float max, float percentage)
 {
+	if (min > max)
+		min = max;
 	float val = percentage * (max - min) + min;
 	if (val > max)
 		val = max;
@@ -78,7 +80,7 @@ void main()
 { 
 	vec3 dir;
 	vec3 offset;
-	int segments = 10;
+	int segments = 5;
 
 	//Generate Transpose matrix
 	vec3 n = DataIn[0].normal;
@@ -87,21 +89,24 @@ void main()
 	
 	mat3 tbn_inv = transpose(mat3(t,b,n));
 
-	float width = ScaleValue(0.01, 0.2, random(gl_in[0].gl_Position.xz));
-	float height = ScaleValue(0.2, 1, random(gl_in[0].gl_Position.xz));
+	float width = ScaleValue(minWidth, maxWidth, random(gl_in[0].gl_Position.xz));
+	float height = ScaleValue(minHeight, maxHeight, random(gl_in[0].gl_Position.xz));
 	//width = 0.1;
 	//height = 2;
 
-	dir = normalize(vec3(ScaleValue(0, 1, random(gl_in[0].gl_Position.xz)),0, ScaleValue(-1, 1, random(gl_in[0].gl_Position.xy))));
+	dir = normalize(vec3(ScaleValue(-1, 1, random(gl_in[0].gl_Position.xz)),0, ScaleValue(-1, 1, random(gl_in[0].gl_Position.xy))));
 	
 	float segment_height = height/segments;
 
-	vec4 windIntensity = texture(wind, vec2(DataIn[0].texCoord.x + timer * 5, DataIn[0].texCoord.y));
+	vec4 windIntensity = texture(wind, vec2(DataIn[0].texCoord.x + timer * 0.00005, DataIn[0].texCoord.y+ timer * 0.00005));
+	vec3 windDir = normalize(vec3(windIntensity.x, windIntensity.y,0));
 
-	mat3 windMatrix = AngleAxis3x3((windIntensity.r * 3.1415), vec3(1,0,0));
-	mat3 faceMatrix = AngleAxis3x3(random(gl_in[0].gl_Position.xz) * 3.1415, vec3(0,1,0));
-	mat3 curvatureMatrix = AngleAxis3x3(ScaleValue(0, 80, random(gl_in[0].gl_Position.xz)), vec3(0,0,1));
-	mat3 finalmatrix = windMatrix * faceMatrix * tbn_inv;
+	mat3 windMatrix = AngleAxis3x3((windIntensity.r * windStr), vec3(1,0,0));
+	mat3 faceMatrix = AngleAxis3x3(ScaleValue(-10, 10, random(gl_in[0].gl_Position.xz)), vec3(0,1,0));
+	mat3 randomBendMatrix = AngleAxis3x3(ScaleValue(0, 0.5, random(gl_in[0].gl_Position.xz))  * bendFactor, vec3(-1,0,0));
+
+	mat3 finalmatrix = faceMatrix * (windMatrix * (randomBendMatrix * tbn_inv));
+	mat3 simplematrix = finalmatrix;//faceMatrix * tbn_inv;
 
 	//---------------------FRONT FACE------------------------------
 	for(int i = 0; i < segments; i++)
@@ -117,13 +122,17 @@ void main()
 		vec3 transposedDir = dir * ((width * (1-seg)) * 0.5);
 
 		//Forward curvature
-		float forward = random(gl_in[0].gl_Position.xz) * 0.2;
+		float forward = ScaleValue(minBend, maxBend, random(gl_in[0].gl_Position.xz)) * 0.2;
 		forward = pow(seg, 2) * forward;
 
-		offset = finalmatrix * (m_viewModel * vec4(-transposedDir.x, forward, -h, 0)).xyz;
+		mat3 m = simplematrix;
+		if (i!=0)
+			m = finalmatrix;
+
+		offset = m * (m_viewModel * vec4(-transposedDir.x, forward, -h, 0)).xyz;
 		GenerateVertex(gl_in[0].gl_Position, offset);
 
-		offset = finalmatrix * (m_viewModel * vec4(transposedDir.x, forward, -h, 0)).xyz;
+		offset = m * (m_viewModel * vec4(transposedDir.x, forward, -h, 0)).xyz;
 		GenerateVertex(gl_in[0].gl_Position, offset);
 		//EndPrimitive();
 	}	
@@ -132,7 +141,7 @@ void main()
 	outUv = vec2(0, 1);
 
 	//Forward curvature
-	float forward = random(gl_in[0].gl_Position.xz) * 0.2;
+	float forward = ScaleValue(minBend, maxBend, random(gl_in[0].gl_Position.xz)) * 0.2;
 	forward = pow(1, 2) * forward;
 
 	vec3 heightvec = finalmatrix * (m_viewModel * vec4(0, forward, -height, 0)).xyz;
@@ -153,13 +162,17 @@ void main()
 		vec3 transposedDir = dir * ((width * (1-seg)) * 0.5);
 
 		//Forward curvature
-		float forward = random(gl_in[0].gl_Position.xz) * 0.2;
+		float forward = ScaleValue(minBend, maxBend, random(gl_in[0].gl_Position.xz)) * 0.2;
 		forward = pow(seg, 2) * forward;
 
-		offset = finalmatrix * (m_viewModel * vec4(transposedDir.x, forward, -h, 0)).xyz;
+		mat3 m = simplematrix;
+		if (i!=0)
+			m = finalmatrix;
+
+		offset = m * (m_viewModel * vec4(transposedDir.x, forward, -h, 0)).xyz;
 		GenerateVertex(gl_in[0].gl_Position, offset);
 
-		offset = finalmatrix * (m_viewModel * vec4(-transposedDir.x, forward, -h, 0)).xyz;
+		offset = m * (m_viewModel * vec4(-transposedDir.x, forward, -h, 0)).xyz;
 		GenerateVertex(gl_in[0].gl_Position, offset);
 		//EndPrimitive();
 		
@@ -169,7 +182,7 @@ void main()
 	outUv = vec2(0, 1);
 
 	//Forward curvature
-	forward = random(gl_in[0].gl_Position.xz) * 0.2;
+	forward = ScaleValue(minBend, maxBend, random(gl_in[0].gl_Position.xz)) * 0.2;
 	forward = pow(1, 2) * forward;
 
 	heightvec = finalmatrix * (m_viewModel * vec4(0, forward, -height, 0)).xyz;
