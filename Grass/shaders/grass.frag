@@ -1,6 +1,9 @@
 #version 420
 
+uniform sampler2D wind;
 uniform sampler2D color;
+
+uniform float timer;
 
 in vec2 outUv;
 out vec4 outputF;
@@ -12,7 +15,8 @@ void main()
 
 	vec3 lerp = mix(bottomColor, topColor, outUv.y);
 
-	vec4 color = texture(color, vec2(outUv.y, outUv.x));
+	vec2 uvs = vec2(outUv.y, outUv.x);
+	vec4 c = texture(color, uvs);
 
-	outputF = color;//vec4(0, lerp.y, 0, 0);
+	outputF = c;//vec4(0, lerp.y, 0, 0);
 } 
