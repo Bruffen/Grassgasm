@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <materialLib name="GrassLib">	
 	<textures>
-		<texture name="wind" filename="Wind/wind.png" mipmap=true />
-		<texture name="color" filename="Wind/color.png" mipmap=true />
+		<texture name="wind" filename="Wind/wind2.png" mipmap=true />
+		<texture name="color" filename="Wind/color.jpg" mipmap=true />
 	</textures>
 	<shaders>
 		<shader name="grasslib" 	vs="shaders/grass.vert" 
@@ -17,10 +17,6 @@
 							 type="RENDERER" context="CURRENT" 
 							 component="PROJECTION_VIEW_MODEL" />
 
-                    <valueof uniform="m_model"     		
-                             type="RENDERER" context="CURRENT" 
-							 component="MODEL" />
-
                     <valueof uniform="m_normal" 
 							 type="RENDERER" context="CURRENT" 
 							 component="NORMAL" />
@@ -29,13 +25,9 @@
 							 type="RENDERER" context="CURRENT" 
 							 component="VIEW_MODEL" />
 
-					<valueof uniform="m_p" 
-							 type="RENDERER" context="CURRENT" 
-							 component="PROJECTION" />
-
 					<valueof uniform="wind"
 							 type="TEXTURE_BINDING" context="CURRENT"
-							 component="UNIT" id=0 />
+							 component="UNIT" id=3 />
 
 					<valueof uniform="color"
 							 type="TEXTURE_BINDING" context="CURRENT"
@@ -49,6 +41,38 @@
 							 type="RENDERER" context="CURRENT" 
 							 component="level"  />
 
+					<valueof uniform="bendFactor" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="bendFactor"  />
+					
+					<valueof uniform="minBend" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="minBend"  />
+
+					<valueof uniform="maxBend" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="maxBend"  />
+					
+					<valueof uniform="minWidth" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="minWidth"  />
+
+					<valueof uniform="maxWidth" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="maxWidth"  />
+							
+					<valueof uniform="minHeight" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="minHeight"  />
+
+					<valueof uniform="maxHeight" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="maxHeight"  />
+
+					<valueof uniform="windStr" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="windStr"  />
+
 					<valueof uniform="alpha"		
 							 type="RENDERER" context="CURRENT"
 							 component="alpha"	/>	
@@ -59,7 +83,7 @@
 				</values>
 			</shader>
 			<textures>
-				<texture name="wind" UNIT = 0 />
+				<texture name="wind" UNIT = 3 />
 				<texture name="color" UNIT = 1 />
 			</textures>
 		</material>
