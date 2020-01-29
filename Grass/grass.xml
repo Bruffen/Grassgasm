@@ -3,10 +3,18 @@
 		<attributes>
 			<attribute name="level" data="FLOAT" type="RENDERER" value=1 />
 			<attribute name="alpha" data="FLOAT" type="RENDERER" value=0.75 />
+			<attribute name="bendFactor" data="FLOAT" type="RENDERER" value=0.75 />
+			<attribute name="minBend" data="FLOAT" type="RENDERER" value=0.01 />
+			<attribute name="maxBend" data="FLOAT" type="RENDERER" value=0.90 />
+			<attribute name="minWidth" data="FLOAT" type="RENDERER" value=0.01 />
+			<attribute name="maxWidth" data="FLOAT" type="RENDERER" value=0.1 />
+			<attribute name="minHeight" data="FLOAT" type="RENDERER" value=0.01 />
+			<attribute name="maxHeight" data="FLOAT" type="RENDERER" value=0.5 />
+			<attribute name="windStr" data="FLOAT" type="RENDERER" value=0.5 />
 		</attributes>
 		<scenes>
             <scene name = "Grass">
-                <geometry name = "plane" type = "GRID" DIVISIONS=10 LENGTH=10 >
+                <geometry name = "plane" type = "GRID" DIVISIONS=100 LENGTH=10 >
                 </geometry> 
             </scene>
         </scenes>
@@ -41,7 +49,7 @@
 	</assets>
 	
 	<pipelines>
-		<pipeline name="Grass" default="true">
+		<pipeline name="Grass" >
 			<pass class="default" name="pass1">
 				<scenes>
 					<scene name="Grass" />
@@ -50,11 +58,9 @@
 				<lights>
 					<light name="Sun" />
 				</lights>
-                <injectionMaps>
-					<map toMaterial="*">
-						<shader fromMaterial="grasslib" fromLibrary="GrassLib" />
-					</map>
-				</injectionMaps>			
+                <materialMaps>
+					<map fromMaterial="*" toMaterial="grasslib" toLibrary="GrassLib" />
+				</materialMaps>			
 			</pass>
 		</pipeline>
 	</pipelines>
@@ -64,6 +70,22 @@
 			<var label="level" type="RENDERER" context="CURRENT" component="level" 
 				def="min=1 max=64 step=0.01"/>
 			<var label="alpha" type="RENDERER" context="CURRENT" component="alpha" 
+				def="min=0 max=2 step=0.01"/>
+			<var label="bendFactor" type="RENDERER" context="CURRENT" component="bendFactor" 
+				def="min=0 max=2 step=0.01"/>
+			<var label="minBend" type="RENDERER" context="CURRENT" component="minBend" 
+				def="min=0 max=2 step=0.01"/>
+			<var label="maxBend" type="RENDERER" context="CURRENT" component="maxBend" 
+				def="min=0 max=2 step=0.01"/>
+			<var label="minHeight" type="RENDERER" context="CURRENT" component="minHeight" 
+				def="min=0 max=2 step=0.01"/>
+			<var label="maxHeight" type="RENDERER" context="CURRENT" component="maxHeight" 
+				def="min=0 max=2 step=0.01"/>
+			<var label="minWidth" type="RENDERER" context="CURRENT" component="minWidth" 
+				def="min=0 max=2 step=0.01"/>
+			<var label="maxWidth" type="RENDERER" context="CURRENT" component="maxWidth" 
+				def="min=0 max=2 step=0.01"/>
+			<var label="windStr" type="RENDERER" context="CURRENT" component="windStr" 
 				def="min=0 max=2 step=0.01"/>
 		</window>
 	</interface>
