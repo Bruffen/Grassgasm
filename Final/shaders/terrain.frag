@@ -36,7 +36,7 @@ in data3 {
     vec3 normal;
     vec3 binormal;
     vec2 uv;
-    int isGrass;
+    flat int isGrass;
 } i;
 
 #define M_PI 3.14159265358979323846

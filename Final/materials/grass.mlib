@@ -32,6 +32,43 @@
 							 type="RENDERER" context="CURRENT" component="translucency" />
                     <valueof uniform="view_size"
 							 type="VIEWPORT" context="CURRENT" component="SIZE" />
+					<valueof uniform="bendFactor" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="bendFactor"  />
+					<valueof uniform="minBend" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="minBend"  />
+					<valueof uniform="maxBend" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="maxBend"  />
+					
+					<valueof uniform="minWidth" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="minWidth"  />
+
+					<valueof uniform="maxWidth" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="maxWidth"  />
+							
+					<valueof uniform="minHeight" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="minHeight"  />
+
+					<valueof uniform="maxHeight" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="maxHeight"  />
+
+					<valueof uniform="windStr" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="windStr"  />
+
+					<valueof uniform="alpha"		
+							 type="RENDERER" context="CURRENT"
+							 component="alpha"	/>	
+
+					<valueof uniform="timer"
+							 type="RENDERER" context="CURRENT"
+							 component="TIMER" />
 				</values>
 			</shader>
 		</material>

@@ -41,7 +41,7 @@ out data3 {
     vec3 normal;
     vec3 binormal;
     vec2 uv;
-    int isGrass;
+    flat int isGrass;
 } o;
 
 float random(vec2 p)

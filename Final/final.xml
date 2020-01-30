@@ -27,6 +27,16 @@
             <!--Grass-->
             <attribute name="translucency"  data="FLOAT"    type="RENDERER" value=1.25 />
             <attribute name="scattering"    data="FLOAT"    type="RENDERER" value=90.0 />
+            <attribute name="level" data="FLOAT" type="RENDERER" value=1 />
+			<attribute name="alpha" data="FLOAT" type="RENDERER" value=0.75 />
+			<attribute name="bendFactor" data="FLOAT" type="RENDERER" value=0.75 />
+			<attribute name="minBend" data="FLOAT" type="RENDERER" value=0.01 />
+			<attribute name="maxBend" data="FLOAT" type="RENDERER" value=0.90 />
+			<attribute name="minWidth" data="FLOAT" type="RENDERER" value=0.01 />
+			<attribute name="maxWidth" data="FLOAT" type="RENDERER" value=0.1 />
+			<attribute name="minHeight" data="FLOAT" type="RENDERER" value=0.01 />
+			<attribute name="maxHeight" data="FLOAT" type="RENDERER" value=0.5 />
+			<attribute name="windStr" data="FLOAT" type="RENDERER" value=0.5 />
             <!--Terrain-->
             <attribute name="specularity"   data="INT"      type="RENDERER" value=32 />
             <attribute name="tiling"        data="VEC2"     type="RENDERER" x=1.0 y=1.0 />
@@ -186,6 +196,28 @@
 	        <var label="Tess max olevel" type="RENDERER" context="CURRENT" component="tess_maxOLevel" def="min=0"/> 
 	        <var label="Tess max ilevel" type="RENDERER" context="CURRENT" component="tess_maxILevel" def="min=0"/> 
 			<var label="Detail in Perlin" type="RENDERER" context="CURRENT" component="detail" def="min=0 max=15"/> 
+        </window>
+        <window label="Grass">
+        			<var label="level" type="RENDERER" context="CURRENT" component="level" 
+				def="min=1 max=64 step=0.01"/>
+			<var label="alpha" type="RENDERER" context="CURRENT" component="alpha" 
+				def="min=0 max=2 step=0.01"/>
+			<var label="bendFactor" type="RENDERER" context="CURRENT" component="bendFactor" 
+				def="min=0 max=2 step=0.01"/>
+			<var label="minBend" type="RENDERER" context="CURRENT" component="minBend" 
+				def="min=0 max=2 step=0.01"/>
+			<var label="maxBend" type="RENDERER" context="CURRENT" component="maxBend" 
+				def="min=0 max=2 step=0.01"/>
+			<var label="minHeight" type="RENDERER" context="CURRENT" component="minHeight" 
+				def="min=0 max=2 step=0.01"/>
+			<var label="maxHeight" type="RENDERER" context="CURRENT" component="maxHeight" 
+				def="min=0 max=2 step=0.01"/>
+			<var label="minWidth" type="RENDERER" context="CURRENT" component="minWidth" 
+				def="min=0 max=2 step=0.01"/>
+			<var label="maxWidth" type="RENDERER" context="CURRENT" component="maxWidth" 
+				def="min=0 max=2 step=0.01"/>
+			<var label="windStr" type="RENDERER" context="CURRENT" component="windStr" 
+				def="min=0 max=2 step=0.01"/>
         </window>
     </interface>   
 </project>
