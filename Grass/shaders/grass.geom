@@ -20,6 +20,7 @@ uniform float maxWidth = 0.1;
 uniform float windStr = 0.5;
 
 out vec2 outUv;
+out vec2 windpwr;
 
 in Data {
 	vec3 normal;
@@ -81,6 +82,7 @@ void main()
 	vec3 dir;
 	vec3 offset;
 	int segments = 5;
+	outUv = vec2(0,0);
 
 	//Generate Transpose matrix
 	vec3 n = DataIn[0].normal;
@@ -98,28 +100,40 @@ void main()
 	
 	float segment_height = height/segments;
 
-	vec4 windIntensity = texture(wind, vec2(DataIn[0].texCoord.x + timer * 0.00005, DataIn[0].texCoord.y+ timer * 0.00005));
+	vec4 windIntensity = texture(wind, vec2(DataIn[0].texCoord.x + timer * 0.00005, DataIn[0].texCoord.y));
 	vec3 windDir = normalize(vec3(windIntensity.x, windIntensity.y,0));
 
-	mat3 windMatrix = AngleAxis3x3((windIntensity.r * windStr), vec3(1,0,0));
+	mat3 windMatrix = AngleAxis3x3((windIntensity.r * windStr), windDir);
 	mat3 faceMatrix = AngleAxis3x3(ScaleValue(-10, 10, random(gl_in[0].gl_Position.xz)), vec3(0,1,0));
 	mat3 randomBendMatrix = AngleAxis3x3(ScaleValue(0, 0.5, random(gl_in[0].gl_Position.xz))  * bendFactor, vec3(-1,0,0));
 
-	mat3 finalmatrix = faceMatrix * (windMatrix * (randomBendMatrix * tbn_inv));
-	mat3 simplematrix = finalmatrix;//faceMatrix * tbn_inv;
+	mat3 finalmatrix = windMatrix * (randomBendMatrix  * (faceMatrix * tbn_inv));
+	mat3 simplematrix = faceMatrix * tbn_inv;
+
+	//---------------------PLANE--------------------------------
+	windpwr = vec2(-1,-1);
+	GenerateVertex(gl_in[0].gl_Position, vec3(0,0,0));
+	GenerateVertex(gl_in[1].gl_Position, vec3(0,0,0));
+	GenerateVertex(gl_in[2].gl_Position, vec3(0,0,0));
+	EndPrimitive();
+	
+	windpwr = vec2(windIntensity.x, windIntensity.z);
 
 	//---------------------FRONT FACE------------------------------
 	for(int i = 0; i < segments; i++)
 	{
-		//UVs
-		outUv = vec2(0, float(i)/float(segments));
-
 		//Height
 		float h = segment_height * i;
 
 		//Width
 		float seg = float(i)/float(segments);
 		vec3 transposedDir = dir * ((width * (1-seg)) * 0.5);
+
+		//Wind 
+		vec3 windforce = windDir * (windStr*0.5) * seg;
+
+		//UVs
+		outUv = vec2(0, float(i)/float(segments));
 
 		//Forward curvature
 		float forward = ScaleValue(minBend, maxBend, random(gl_in[0].gl_Position.xz)) * 0.2;
@@ -130,9 +144,11 @@ void main()
 			m = finalmatrix;
 
 		offset = m * (m_viewModel * vec4(-transposedDir.x, forward, -h, 0)).xyz;
+		//offset = vec3(offset.x + windforce.x, offset.y + windforce.z, offset.z);
 		GenerateVertex(gl_in[0].gl_Position, offset);
 
 		offset = m * (m_viewModel * vec4(transposedDir.x, forward, -h, 0)).xyz;
+		//offset = vec3(offset.x + windforce.x, offset.y + windforce.z, offset.z);
 		GenerateVertex(gl_in[0].gl_Position, offset);
 		//EndPrimitive();
 	}	
@@ -140,11 +156,13 @@ void main()
 	//Top Vertex
 	outUv = vec2(0, 1);
 
+
 	//Forward curvature
 	float forward = ScaleValue(minBend, maxBend, random(gl_in[0].gl_Position.xz)) * 0.2;
 	forward = pow(1, 2) * forward;
 
 	vec3 heightvec = finalmatrix * (m_viewModel * vec4(0, forward, -height, 0)).xyz;
+	//heightvec = vec3(heightvec.x + windforce.x, heightvec.y + windforce.z, heightvec.z);
 	GenerateVertex(gl_in[0].gl_Position, heightvec);
 	EndPrimitive();
 
@@ -161,6 +179,12 @@ void main()
 		float seg = float(i)/float(segments);
 		vec3 transposedDir = dir * ((width * (1-seg)) * 0.5);
 
+		//Wind 
+		vec3 windforce = windDir * (windStr*0.5) * seg;
+
+		//UVs
+		outUv = vec2(0, float(i)/float(segments));
+
 		//Forward curvature
 		float forward = ScaleValue(minBend, maxBend, random(gl_in[0].gl_Position.xz)) * 0.2;
 		forward = pow(seg, 2) * forward;
@@ -170,9 +194,11 @@ void main()
 			m = finalmatrix;
 
 		offset = m * (m_viewModel * vec4(transposedDir.x, forward, -h, 0)).xyz;
+		//offset = vec3(offset.x + windforce.x, offset.y + windforce.z, offset.z);
 		GenerateVertex(gl_in[0].gl_Position, offset);
 
 		offset = m * (m_viewModel * vec4(-transposedDir.x, forward, -h, 0)).xyz;
+		//offset = vec3(offset.x + windforce.x, offset.y + windforce.z, offset.z);
 		GenerateVertex(gl_in[0].gl_Position, offset);
 		//EndPrimitive();
 		
@@ -186,6 +212,7 @@ void main()
 	forward = pow(1, 2) * forward;
 
 	heightvec = finalmatrix * (m_viewModel * vec4(0, forward, -height, 0)).xyz;
+	//heightvec = vec3(heightvec.x + windforce.x, heightvec.y + windforce.z, heightvec.z);
 	GenerateVertex(gl_in[0].gl_Position, heightvec);
 	EndPrimitive();
 }
