@@ -87,6 +87,8 @@ void main()
 {
     if (i.isGrass == 0)
     {
+        vec2 uv = i.worldPos.xz * tiling;
+        float heightnoise = perlin(uv * 0.001, 2, -534523) * 0.01;
         //vec2 uv = i.uv * tiling;
         vec3 h_diff;
         vec3 h_norm;
@@ -104,7 +106,6 @@ void main()
         vec3 l_H = vec3 (0,mynoise(vec2(p.x,p.z-OFFSET)),0-OFFSET);
         vec3 calcNormal = normalize(cross((0,p.y,0)-l_H,(0,p.y,0)-b_H)+cross((0,p.y,0)-r_H,(0,p.y,0)-f_H));
         vec3 n = normalize(m_normal * calcNormal);
-        vec2 uv = i.worldPos.xz * tiling;
 
         /* Water */
         if (i.worldPos.y < 0.0)
@@ -118,7 +119,7 @@ void main()
             v_roug = vec3(0.0, 0.0, 0.0);
         }
         /* Sand */
-        else if (i.worldPos.y < 0.09)
+        else if (i.worldPos.y < 0.001 + heightnoise)
         {
             v_diff = texture(sand_diff, uv).rgb;
             //v_norm = texture(sand_norm, uv).rgb * 2.0 - 1.0;
@@ -128,14 +129,14 @@ void main()
             //h_norm = v_norm;
             h_roug = v_roug;
         }
-        else if (i.worldPos.y > 0.09 && i.worldPos.y < 0.15)
+        else if (i.worldPos.y > 0.001 + heightnoise && i.worldPos.y < 0.01 + heightnoise)
         {
             vec3 v_diff1 = texture(sand_diff, uv).rgb;
             //v_norm = texture(sand_norm, uv).rgb * 2.0 - 1.0;
             vec3 v_roug1 = texture(sand_roug, uv).rgb;
-            vec3 h_diff1 = v_diff;
+            vec3 h_diff1 = v_diff1;
             //h_norm = v_norm;
-            vec3 h_roug1 = v_roug;
+            vec3 h_roug1 = v_roug1;
 
             vec3 v_diff2 = texture(dirt_diff, uv).rgb;
             //v_norm = texture(dirt_norm, uv).rgb * 2.0 - 1.0;
@@ -145,14 +146,14 @@ void main()
             //h_norm = texture(grass_norm, uv).rgb * 2.0 - 1.0;
             vec3 h_roug2 = texture(grass_roug, uv).rgb;
 
-            float factor = clamp((i.worldPos.y - 0.09) * 6.66, 0, 1);
+            float factor = clamp((i.worldPos.y - 0.001 - heightnoise) * 100, 0, 1);
             v_diff = mix(v_diff1, v_diff2, factor);
             v_roug = mix(v_roug1, v_roug2, factor);
             h_diff = mix(h_diff1, h_diff2, factor);
             h_roug = mix(h_roug1, h_roug2, factor);        
         }
         /* Grass */
-        else if (i.worldPos.y < 0.5)
+        else if (i.worldPos.y < 0.5 + heightnoise)
         {
             v_diff = texture(dirt_diff, uv).rgb;
             //v_norm = texture(dirt_norm, uv).rgb * 2.0 - 1.0;
@@ -162,7 +163,7 @@ void main()
             //h_norm = texture(grass_norm, uv).rgb * 2.0 - 1.0;
             h_roug = texture(grass_roug, uv).rgb;
         }
-        else if (i.worldPos.y > 0.5 && i.worldPos.y < 0.54)
+        else if (i.worldPos.y > 0.5 + heightnoise && i.worldPos.y < 0.6 + heightnoise)
         {
             vec3 v_diff1 = texture(grass_diff, uv).rgb;
             //v_norm = texture(sand_norm, uv).rgb * 2.0 - 1.0;
@@ -178,14 +179,14 @@ void main()
             //h_norm = v_norm;
             vec3 h_roug2 = v_roug2;
 
-            float factor = clamp((i.worldPos.y - 0.5) * 25, 0, 1);
+            float factor = clamp((i.worldPos.y - 0.5 - heightnoise) * 10, 0, 1);
             v_diff = mix(v_diff1, v_diff2, factor);
             v_roug = mix(v_roug1, v_roug2, factor);
             h_diff = mix(h_diff1, h_diff2, factor);
             h_roug = mix(h_roug1, h_roug2, factor);
         }
         /* Mountain top */
-        else if (i.worldPos.y < 2)
+        else if (i.worldPos.y < 2 + heightnoise )
         {
             v_diff = texture(rock_diff, uv).rgb;
             //v_norm = texture(sand_norm, uv).rgb * 2.0 - 1.0;
@@ -195,7 +196,7 @@ void main()
             //h_norm = v_norm;
             h_roug = v_roug;
         }
-        else if (i.worldPos.y > 2 && i.worldPos.y < 2.04)
+        else if (i.worldPos.y > 2 + heightnoise && i.worldPos.y < 2.1 + heightnoise)
         {
             vec3 v_diff1 = texture(rock_diff, uv).rgb;
             //v_norm = texture(sand_norm, uv).rgb * 2.0 - 1.0;
@@ -211,7 +212,7 @@ void main()
             //v_norm = texture(sand_norm, uv).rgb * 2.0 - 1.0;
             vec3 h_roug2 = texture(snow_roug, uv).rgb;
 
-            float factor = clamp((i.worldPos.y - 2) * 25, 0, 1);
+            float factor = clamp((i.worldPos.y - 2 - heightnoise) * 10, 0, 1);
             v_diff = mix(v_diff1, v_diff2, factor);
             v_roug = mix(v_roug1, v_roug2, factor);
             h_diff = mix(h_diff1, h_diff2, factor);

@@ -4,6 +4,7 @@ layout(triangle_strip, max_vertices=200) out;
 
 uniform mat4 m_pvm;
 uniform mat4 m_model;
+uniform mat4 m_pv;
 uniform mat3 m_normal;
 uniform mat4 m_viewModel;
 
@@ -72,8 +73,8 @@ float ScaleValue(float min, float max, float percentage)
 void GenerateVertex(vec4 pos, vec3 offset)
 {
 	vec4 sum = pos + vec4(offset, 0);
-	o.worldPos = m_model * pos;
-	o.position = m_pvm * sum;
+	o.worldPos = pos;
+	o.position = m_pv * sum;
 	gl_Position = o.position;
     EmitVertex();
 }
@@ -161,96 +162,98 @@ void main()
 	float grass_height = (m_model * gl_in[0].gl_Position).y;
 
 	if (grass_height < 0.55 && grass_height > 0.015)
-	//---------------------FRONT FACE------------------------------
-	for(int i = 0; i < segments; i++)
 	{
-		//UVs
-		o.uv = vec2(0, float(i)/float(segments));
+		//---------------------FRONT FACE------------------------------
+		for(int i = 0; i < segments; i++)
+		{
+			//UVs
+			o.uv = vec2(0, float(i)/float(segments));
 
-		//Height
-		float h = segment_height * i;
+			//Height
+			float h = segment_height * i;
 
-		//Width
-		float seg = float(i)/float(segments);
-		vec3 transposedDir = dir * ((width * (1-seg)) * 0.5);
+			//Width
+			float seg = float(i)/float(segments);
+			vec3 transposedDir = dir * ((width * (1-seg)) * 0.5);
+
+			//Forward curvature
+			float forward = ScaleValue(minBend, maxBend, random(gl_in[0].gl_Position.xz)) * 0.2;
+			forward = pow(seg, 2) * forward;
+
+			mat3 m = simplematrix;
+			if (i!=0)
+				m = finalmatrix;
+
+			offset = m * (m_viewModel * vec4(-transposedDir.x, forward, h, 0)).xyz;
+			setCommonData(0);
+			o.isGrass = 1;
+			GenerateVertex(tempPos, offset);
+
+			offset = m * (m_viewModel * vec4(transposedDir.x, forward, h, 0)).xyz;
+			setCommonData(0);
+			o.isGrass = 1;
+			GenerateVertex(tempPos, offset);
+			//EndPrimitive();
+		}	
+
+		//Top Vertex
+		o.uv = vec2(0, 1);
 
 		//Forward curvature
 		float forward = ScaleValue(minBend, maxBend, random(gl_in[0].gl_Position.xz)) * 0.2;
-		forward = pow(seg, 2) * forward;
+		forward = pow(1, 2) * forward;
 
-		mat3 m = simplematrix;
-		if (i!=0)
-			m = finalmatrix;
-
-		offset = m * (m_viewModel * vec4(-transposedDir.x, forward, h, 0)).xyz;
+		vec3 heightvec = finalmatrix * (m_viewModel * vec4(0, forward, height, 0)).xyz;
 		setCommonData(0);
 		o.isGrass = 1;
-		GenerateVertex(tempPos, offset);
+		GenerateVertex(tempPos, heightvec);
+		EndPrimitive();
 
-		offset = m * (m_viewModel * vec4(transposedDir.x, forward, h, 0)).xyz;
-		setCommonData(0);
-		o.isGrass = 1;
-		GenerateVertex(tempPos, offset);
-		//EndPrimitive();
-	}	
+		//---------------------BACK FACE------------------------------
+		for(int i = 0; i < segments; i++)
+		{
+			//UVs
+			o.uv = vec2(0, float(i)/float(segments));
 
-	//Top Vertex
-	o.uv = vec2(0, 1);
+			//Height
+			float h = segment_height * i;
 
-	//Forward curvature
-	float forward = ScaleValue(minBend, maxBend, random(gl_in[0].gl_Position.xz)) * 0.2;
-	forward = pow(1, 2) * forward;
+			//Width
+			float seg = float(i)/float(segments);
+			vec3 transposedDir = dir * ((width * (1-seg)) * 0.5);
 
-	vec3 heightvec = finalmatrix * (m_viewModel * vec4(0, forward, height, 0)).xyz;
-	setCommonData(0);
-	o.isGrass = 1;
-	GenerateVertex(tempPos, heightvec);
-	EndPrimitive();
+			//Forward curvature
+			float forward = ScaleValue(minBend, maxBend, random(gl_in[0].gl_Position.xz)) * 0.2;
+			forward = pow(seg, 2) * forward;
 
-	//---------------------BACK FACE------------------------------
-	for(int i = 0; i < segments; i++)
-	{
-		//UVs
-		o.uv = vec2(0, float(i)/float(segments));
+			mat3 m = simplematrix;
+			if (i!=0)
+				m = finalmatrix;
 
-		//Height
-		float h = segment_height * i;
+			offset = m * (m_viewModel * vec4(transposedDir.x, forward, h, 0)).xyz;
+			setCommonData(0);
+			o.isGrass = 1;
+			GenerateVertex(tempPos, offset);
 
-		//Width
-		float seg = float(i)/float(segments);
-		vec3 transposedDir = dir * ((width * (1-seg)) * 0.5);
+			offset = m * (m_viewModel * vec4(-transposedDir.x, forward, h, 0)).xyz;
+			setCommonData(0);
+			o.isGrass = 1;
+			GenerateVertex(tempPos, offset);
+			//EndPrimitive();
+			
+		}
+
+		//Top Vertex
+		o.uv = vec2(0, 1);
 
 		//Forward curvature
-		float forward = ScaleValue(minBend, maxBend, random(gl_in[0].gl_Position.xz)) * 0.2;
-		forward = pow(seg, 2) * forward;
+		forward = ScaleValue(minBend, maxBend, random(gl_in[0].gl_Position.xz)) * 0.2;
+		forward = pow(1, 2) * forward;
 
-		mat3 m = simplematrix;
-		if (i!=0)
-			m = finalmatrix;
-
-		offset = m * (m_viewModel * vec4(transposedDir.x, forward, h, 0)).xyz;
+		heightvec = finalmatrix * (m_viewModel * vec4(0, forward, height, 0)).xyz;
 		setCommonData(0);
 		o.isGrass = 1;
-		GenerateVertex(tempPos, offset);
-
-		offset = m * (m_viewModel * vec4(-transposedDir.x, forward, h, 0)).xyz;
-		setCommonData(0);
-		o.isGrass = 1;
-		GenerateVertex(tempPos, offset);
-		//EndPrimitive();
-		
+		GenerateVertex(tempPos, heightvec);
+		EndPrimitive();
 	}
-
-	//Top Vertex
-	o.uv = vec2(0, 1);
-
-	//Forward curvature
-	forward = ScaleValue(minBend, maxBend, random(gl_in[0].gl_Position.xz)) * 0.2;
-	forward = pow(1, 2) * forward;
-
-	heightvec = finalmatrix * (m_viewModel * vec4(0, forward, height, 0)).xyz;
-	setCommonData(0);
-	o.isGrass = 1;
-	GenerateVertex(tempPos, heightvec);
-	EndPrimitive();
 }
