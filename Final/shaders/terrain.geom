@@ -138,11 +138,14 @@ void main()
 	//---------------------PLANE--------------------------------
 	setCommonData(0);
 	o.uv = i[0].uv;
+	o.isGrass = 0;
     GenerateVertex(gl_in[0].gl_Position, vec3(0,0,0));
 	o.uv = i[1].uv;
+	o.isGrass = 0;
 	setCommonData(1);
     GenerateVertex(gl_in[1].gl_Position, vec3(0,0,0));
 	o.uv = i[2].uv;
+	o.isGrass = 0;
 	setCommonData(2);
     GenerateVertex(gl_in[2].gl_Position, vec3(0,0,0));
     EndPrimitive();
@@ -170,10 +173,12 @@ void main()
 
 		offset = m * (m_viewModel * vec4(-transposedDir.x, forward, -h, 0)).xyz;
 		setCommonData(0);
+		o.isGrass = 1;
 		GenerateVertex(gl_in[0].gl_Position, offset);
 
 		offset = m * (m_viewModel * vec4(transposedDir.x, forward, -h, 0)).xyz;
 		setCommonData(0);
+		o.isGrass = 1;
 		GenerateVertex(gl_in[0].gl_Position, offset);
 		//EndPrimitive();
 	}	
@@ -187,6 +192,7 @@ void main()
 
 	vec3 heightvec = finalmatrix * (m_viewModel * vec4(0, forward, -height, 0)).xyz;
 	setCommonData(0);
+	o.isGrass = 1;
 	GenerateVertex(gl_in[0].gl_Position, heightvec);
 	EndPrimitive();
 
@@ -213,14 +219,16 @@ void main()
 
 		offset = m * (m_viewModel * vec4(transposedDir.x, forward, -h, 0)).xyz;
 		setCommonData(0);
+		o.isGrass = 1;
 		GenerateVertex(gl_in[0].gl_Position, offset);
 
 		offset = m * (m_viewModel * vec4(-transposedDir.x, forward, -h, 0)).xyz;
 		setCommonData(0);
+		o.isGrass = 1;
 		GenerateVertex(gl_in[0].gl_Position, offset);
 		//EndPrimitive();
 		
-	}	
+	}
 
 	//Top Vertex
 	o.uv = vec2(0, 1);
@@ -231,6 +239,7 @@ void main()
 
 	heightvec = finalmatrix * (m_viewModel * vec4(0, forward, -height, 0)).xyz;
 	setCommonData(0);
+	o.isGrass = 1;
 	GenerateVertex(gl_in[0].gl_Position, heightvec);
 	EndPrimitive();
 }
