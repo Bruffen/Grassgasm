@@ -132,12 +132,12 @@
 					<map fromMaterial="mat_skybox" 
                          toMaterial="mat_skybox" toLibrary="Lighting#Pass"/>
 				</materialMaps>
+                <renderTarget name="Source" fromLibrary="PostProcessing" />
             </pass>
 
             <!-- Post Processing -->
 
-            <!--pass class="quad" name="PostProcess_Setup">
-                <renderTarget name="Source" fromLibrary="PostProcessing" />
+            <pass class="quad" name="PostProcess_Setup">
 				<materialMaps>
 				    <map fromMaterial="__Quad" toMaterial="mat_brightness" toLibrary="PostProcessing"/>
 				</materialMaps>
@@ -161,7 +161,7 @@
 				<materialMaps>
 					<map fromMaterial="__Quad" toMaterial="mat_radialblur" toLibrary="PostProcessing"/>
 				</materialMaps>
-			</pass-->
+			</pass>
         </pipeline>
     </pipelines>
 
