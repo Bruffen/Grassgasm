@@ -14,7 +14,7 @@ out data {
     //vec3 worldPos;
     //vec3 worldNormal;
     vec3 ldir;
-    vec3 eye;
+    //vec3 eye;
     //vec3 tangent;
     //vec3 normal;
     vec2 uv;
@@ -172,5 +172,5 @@ void main()
     o.uv = texCoord0;
     o.ldir = normalize(/*tbn_inv **/ (m_view * vec4(-light_dir, 0)).xyz);
 
-	gl_Position = vec4(posp.x,0,posp.z,1);
+    gl_Position = vec4(posp.x,0,posp.z,1);
 }

@@ -16,13 +16,13 @@ uniform float tess_outOfScreen;
 
 in data {
     vec3 ldir;
-    vec3 eye;
+    //vec3 eye;
     vec2 uv;
 } i[];
 
 out data {
     vec3 ldir;
-    vec3 eye;
+    //vec3 eye;
     vec2 uv;
 } o[];
 
@@ -84,6 +84,6 @@ void main() {
 	gl_TessLevelInner[0] = ilevel;
 	gl_TessLevelInner[1] = ilevel;
     o[gl_InvocationID].ldir = i[gl_InvocationID].ldir;
-    o[gl_InvocationID].eye = i[gl_InvocationID].eye;
+    //o[gl_InvocationID].eye = i[gl_InvocationID].eye;
     o[gl_InvocationID].uv = i[gl_InvocationID].uv;
 }

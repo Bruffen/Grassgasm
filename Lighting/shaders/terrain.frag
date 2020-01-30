@@ -77,7 +77,7 @@ float mynoise(vec2 points) {
 
 void main()
 {
-    vec2 uv = i.uv * tiling;
+    //vec2 uv = i.uv * tiling;
     vec3 h_diff;
     vec3 h_norm;
     vec3 h_roug;
@@ -85,6 +85,17 @@ void main()
     vec3 v_norm;
     vec3 v_roug;
     
+    /* Recalculate noise for normals */
+    float OFFSET = 0.0001;
+	vec4 p = i.position;
+	vec3 f_H = vec3 (0+OFFSET,mynoise(vec2(p.x+OFFSET,p.z)),0);
+  	vec3 r_H = vec3 (0,mynoise(vec2(p.x,p.z+OFFSET)),0+OFFSET);
+	vec3 b_H = vec3 (0-OFFSET,mynoise(vec2(p.x-OFFSET,p.z)),0);
+	vec3 l_H = vec3 (0,mynoise(vec2(p.x,p.z-OFFSET)),0-OFFSET);
+  	vec3 calcNormal = normalize(cross((0,p.y,0)-l_H,(0,p.y,0)-b_H)+cross((0,p.y,0)-r_H,(0,p.y,0)-f_H));
+	vec3 n = normalize(m_normal * calcNormal);
+    vec2 uv = p.xz * tiling;
+
     /* Water */
     if (i.worldPos.y < 0.0)
     {
@@ -129,16 +140,6 @@ void main()
         //h_norm = texture(snow_norm, uv).rgb * 2.0 - 1.0;
         h_roug = texture(snow_roug, uv).rgb;
     }
-
-    /* Recalculate noise for normals */
-    float OFFSET = 0.0001;
-	vec4 p = i.position;
-	vec3 f_H = vec3 (0+OFFSET,mynoise(vec2(p.x+OFFSET,p.z)),0);
-  	vec3 r_H = vec3 (0,mynoise(vec2(p.x,p.z+OFFSET)),0+OFFSET);
-	vec3 b_H = vec3 (0-OFFSET,mynoise(vec2(p.x-OFFSET,p.z)),0);
-	vec3 l_H = vec3 (0,mynoise(vec2(p.x,p.z-OFFSET)),0-OFFSET);
-  	vec3 calcNormal = normalize(cross((0,p.y,0)-l_H,(0,p.y,0)-b_H)+cross((0,p.y,0)-r_H,(0,p.y,0)-f_H));
-	vec3 n = normalize(m_normal * calcNormal);
     
     float normalY   = smoothstep(0.4, 0.85, calcNormal.y);
     //float normalY   = smoothstep(0.4, 0.85, o.worldNormal.y);
@@ -152,6 +153,6 @@ void main()
 	vec3 h          = normalize(i.ldir + i.eye);
 	float specular  = pow(max(dot(h, n), 0.0), specularity) * intensity;
     vec3 ambient = diffuse * 0.3;
-    //color = vec4(clamp(ambient + diffuse * 0.8 * intensity + specular *  (1 - roughness), 0, 1), 1);
-    color = vec4(calcNormal, 1.0);
+    color = vec4(clamp(ambient + diffuse * 0.8 * intensity + specular * (1 - roughness), 0, 1), 1);
+    //color = vec4(p.xz, 0.0, 1.0);
 }

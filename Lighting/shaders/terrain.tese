@@ -15,7 +15,7 @@ in vec4 posTC[];
 
 in data {
     vec3 ldir;
-    vec3 eye;
+    //vec3 eye;
     vec2 uv;
 } i[];
 
@@ -175,6 +175,7 @@ void main() {
     o.uv = texCoord0;
      */
 
+	o.ldir = i[0].ldir;
     o.eye = /*tbn_inv **/ vec3(m_viewModel * -p);
 	o.position = p;
     o.worldPos = m_model * p;
