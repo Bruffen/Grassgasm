@@ -169,9 +169,11 @@ void main()
 			m = finalmatrix;
 
 		offset = m * (m_viewModel * vec4(-transposedDir.x, forward, -h, 0)).xyz;
+		setCommonData(0);
 		GenerateVertex(gl_in[0].gl_Position, offset);
 
 		offset = m * (m_viewModel * vec4(transposedDir.x, forward, -h, 0)).xyz;
+		setCommonData(0);
 		GenerateVertex(gl_in[0].gl_Position, offset);
 		//EndPrimitive();
 	}	
@@ -184,6 +186,7 @@ void main()
 	forward = pow(1, 2) * forward;
 
 	vec3 heightvec = finalmatrix * (m_viewModel * vec4(0, forward, -height, 0)).xyz;
+	setCommonData(0);
 	GenerateVertex(gl_in[0].gl_Position, heightvec);
 	EndPrimitive();
 
@@ -209,9 +212,11 @@ void main()
 			m = finalmatrix;
 
 		offset = m * (m_viewModel * vec4(transposedDir.x, forward, -h, 0)).xyz;
+		setCommonData(0);
 		GenerateVertex(gl_in[0].gl_Position, offset);
 
 		offset = m * (m_viewModel * vec4(-transposedDir.x, forward, -h, 0)).xyz;
+		setCommonData(0);
 		GenerateVertex(gl_in[0].gl_Position, offset);
 		//EndPrimitive();
 		
@@ -225,6 +230,7 @@ void main()
 	forward = pow(1, 2) * forward;
 
 	heightvec = finalmatrix * (m_viewModel * vec4(0, forward, -height, 0)).xyz;
+	setCommonData(0);
 	GenerateVertex(gl_in[0].gl_Position, heightvec);
 	EndPrimitive();
 }
