@@ -14,7 +14,7 @@ in vec4 position;	// local space
 in vec3 normal;		// local space
 
 uniform vec4 camposition;
-
+uniform mat4 m_model;
 // 2D Random
 float random (in vec2 st) {
     return fract(sin(dot(st.xy,
@@ -163,7 +163,7 @@ float mynoise(vec2 points){
 
 
 void main () {
-  vec4 cameraPosition = m_pvm[3];
-  vec4 posp =  position + vec4(floor(camposition.x),0,floor(camposition.z),0) ;
+  vec4 translate = m_model[3];
+  vec4 posp =  m_model* (position +vec4(floor(camposition.x),0,floor(camposition.z),0)) ;
 	gl_Position = vec4(posp.x,0,posp.z,1);	
 }

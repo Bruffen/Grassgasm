@@ -28,7 +28,9 @@
 					<valueof uniform="m_view" block="Matrices" 
 							 type="RENDERER" context="CURRENT" 
 							 component="VIEW" />
-							 
+					<valueof uniform="m_model" 
+							 type="RENDERER" context="CURRENT" 
+							 component="MODEL" />
 					<valueof uniform="diffuse" block="Material" 
 							 type="COLOR" context="CURRENT" 
 							 component="DIFFUSE" />
@@ -40,7 +42,6 @@
 					<valueof uniform="camposition" 
 							 type="CAMERA" context="CURRENT"
 							 component="POSITION" />
-					
 					<valueof uniform="projViewModelMatrix"  type="RENDERER" context="CURRENT" 
 											component="PROJECTION_VIEW_MODEL" />
 					<valueof uniform="tess_maxDistance" type="RENDERER" context="CURRENT" component="tess_maxDistance" />
