@@ -72,7 +72,7 @@ void main() {
 	float olevel = mix(tess_maxOLevel, 0, dist);
 	float ilevel = mix(tess_maxILevel, 0, dist);
 
-	//vec4 ppos = (m_pvm * position);
+	vec4 ppos = (m_pvm * position);
 	//vec3 spos = ppos.xyz / ppos.w;
 	//This out of screen value can't be low if you want to get up close
 	//if (spos.z < -tess_outOfScreen || spos.x < -tess_outOfScreen || spos.x > tess_outOfScreen) {
