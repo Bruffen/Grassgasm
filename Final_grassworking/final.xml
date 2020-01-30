@@ -1,0 +1,235 @@
+<?xml version="1.0" ?>
+<project name="Final" width = "1280" height = "720">
+    <assets>
+    	<attributes>
+            <attribute name="m_view"        data="MAT4"     type="RENDERER" />
+            <attribute name="m_proj"        data="MAT4"     type="RENDERER" />
+            <attribute name="m_pv"          data="MAT4"     type="RENDERER" />
+            <!--Skybox-->
+            <attribute name="sky_blue"      data="VEC3"     type="RENDERER" x=0.4 y=0.6 z=0.9 />
+            <attribute name="sky_orange"    data="VEC3"     type="RENDERER" x=0.9 y=0.4 z=0.2 />
+            <attribute name="sun_cutoff"    data="FLOAT"    type="RENDERER" value=20 />
+            <attribute name="sun_fade"      data="FLOAT"    type="RENDERER" value=10 />
+            <attribute name="sun_screenPos" data="VEC2"     type="RENDERER" x=0.5 y=0.5 />
+            <!--GodRays-->
+			<attribute name="num_samples"   data="INT"      type="RENDERER" value=60 />
+            <attribute name="ray_length"    data="FLOAT"    type="RENDERER" value=0.85 />
+            <!--LensFlare-->
+            <attribute name="ghost_count"   data="INT"      type="RENDERER" value=3 />
+            <attribute name="ghost_spacing" data="FLOAT"    type="RENDERER" value=0.75 />
+            <attribute name="ghost_threshold" data="FLOAT"  type="RENDERER" value=1.25 />
+            <attribute name="lens_aberration" data="FLOAT"  type="RENDERER" value=0.25 />
+            <attribute name="lens_transparency" data="FLOAT" type="RENDERER" value=0.08 />
+            <!--Vignette-->
+            <attribute name="vig_outter"    data="FLOAT"    type="RENDERER" value=0.85 />
+            <attribute name="vig_inner"     data="FLOAT"    type="RENDERER" value=0.4 />
+            <attribute name="vig_opacity"   data="FLOAT"    type="RENDERER" value=0.3 />
+            <!--Grass-->
+            <attribute name="translucency"  data="FLOAT"    type="RENDERER" value=1.25 />
+            <attribute name="scattering"    data="FLOAT"    type="RENDERER" value=90.0 />
+            <attribute name="level" data="FLOAT" type="RENDERER" value=1 />
+			<attribute name="alpha" data="FLOAT" type="RENDERER" value=0.75 />
+			<attribute name="bendFactor" data="FLOAT" type="RENDERER" value=0.75 />
+			<attribute name="minBend" data="FLOAT" type="RENDERER" value=0.01 />
+			<attribute name="maxBend" data="FLOAT" type="RENDERER" value=0.90 />
+			<attribute name="minWidth" data="FLOAT" type="RENDERER" value=0.05 />
+			<attribute name="maxWidth" data="FLOAT" type="RENDERER" value=0.05 />
+			<attribute name="minHeight" data="FLOAT" type="RENDERER" value=0.52 />
+			<attribute name="maxHeight" data="FLOAT" type="RENDERER" value=0.52 />
+			<attribute name="windStr" data="FLOAT" type="RENDERER" value=2 />
+            <attribute name="windVelocity" data="FLOAT" type="RENDERER" value=1 />
+            <attribute name="red" data="FLOAT" type="RENDERER" value=1 />
+			<attribute name="green" data="FLOAT" type="RENDERER" value=1 />
+			<attribute name="blue" data="FLOAT" type="RENDERER" value=1 />
+            <!--Terrain-->
+            <attribute name="specularity"   data="INT"      type="RENDERER" value=32 />
+            <attribute name="tiling"        data="VEC2"     type="RENDERER" x=1.0 y=1.0 />
+			<attribute name="detail"        data="INT"      type="RENDERER" value=10 />
+            <attribute name="tess_maxDistance" data="FLOAT" type="RENDERER" value=40 />
+			<attribute name="tess_maxOLevel"   data="INT" 	type="RENDERER" value=45 />
+			<attribute name="tess_maxILevel"   data="INT" 	type="RENDERER" value=45 />
+			<attribute name="tess_outOfScreen" data="FLOAT" type="RENDERER" value=10 />
+		</attributes>
+		
+        <scenes>
+            <scene name = "Skybox">
+                <geometry name = "cube_skybox" type = "BOX" material="mat_skybox"/>
+            </scene>
+            <!--scene name = "Axis">
+                <geometry name = "axis" type = "AXIS" />
+            </scene-->
+            <!--scene name = "Sphere">
+                <geometry name = "sphere" type = "SPHERE" />
+                <TRANSLATE x=0 y=0 z=-1 />
+            </scene-->
+			<scene name="Plane">
+				<file name="models/Square.patch"/>
+                <!--TRANSLATE x=0 y=-10 z=0 /-->
+			</scene>
+            <!--scene name = "Leaf">
+                <geometry name = "plane" type = "SQUARE" material="mat_grass"/>
+                <SCALE x=1 y=1 z=1 />
+                <ROTATE x=1 y=0 z=-1 w=90 />
+                <TRANSLATE x=-5 y=-1 z=-5 />
+            </scene-->
+        </scenes>
+
+        <viewports>
+            <viewport name="MainViewport">
+                <CLEAR_COLOR r="0.6" g="0.8" b="0.7" />
+            </viewport>
+        </viewports>
+
+        <cameras>
+            <camera name="MainCamera" >
+                <viewport name="MainViewport" />
+                <POSITION x=0 y=0 z=0 />
+                <VIEW x=0.0 y=0.0 z=-1.0 />
+                <UP x=0 y=1 z=0 />
+                <NEAR value=0.01 />
+            </camera>
+        </cameras>
+
+        <lights>
+            <light name="Sun">
+                <DIRECTION x="1.0" y="-1.0" z="-1.0" />
+                <COLOR r="1.0" g="1.0" b="0.98" />
+            </light>
+        </lights>
+
+        <materialLibs>
+			<materialLib filename="materials/skybox.mlib" />
+            <materialLib filename="materials/postprocess.mlib" />
+            <materialLib filename="materials/grass.mlib" />
+            <materialLib filename="materials/terrain.mlib" />
+		</materialLibs>
+    </assets>
+
+    <pipelines>
+        <pipeline name="Lighting" default="true">
+            <pass class="default" name="Pass">
+                <preScript file="scripts/setup.lua" script="calcSunScreenPosition" />
+                <scenes>
+                    <scene name="Skybox" />
+                    <!--scene name="Axis" />
+                    <scene name="Sphere" />
+                    <scene name="Leaf" /-->
+                    <scene name="Plane" />
+                </scenes>
+                <camera name="MainCamera" />
+                <viewport name="MainViewport" />
+                <lights>
+                    <light name="Sun" />
+                </lights>
+                <injectionMaps>
+					<map toMaterial="mat_skybox">
+						<state name="cull" fromLibrary="Lighting#Pass" />
+					</map>
+				</injectionMaps>
+                <materialMaps>
+                    <map fromMaterial="*"
+                         toMaterial="mat_terrain" toLibrary="Terrain"/>
+					<map fromMaterial="mat_skybox" 
+                         toMaterial="mat_skybox" toLibrary="Lighting#Pass"/>
+				</materialMaps>
+            </pass>
+
+            <!-- Post Processing -->
+
+            <!--pass class="quad" name="PostProcess_Setup">
+                <renderTarget name="Source" fromLibrary="PostProcessing" />
+				<materialMaps>
+				    <map fromMaterial="__Quad" toMaterial="mat_brightness" toLibrary="PostProcessing"/>
+				</materialMaps>
+                <renderTarget name="Brightness" fromLibrary="PostProcessing" />
+			</pass>
+            <pass class="quad" name="PostProcess_Lens">
+                <materialMaps>
+				    <map fromMaterial="__Quad" toMaterial="mat_lensflare" toLibrary="PostProcessing"/>
+				</materialMaps>
+                <renderTarget name="LensFlare" fromLibrary="PostProcessing" />
+			</pass>
+            <pass class="quad" name="PostProcess_LensBlur">
+				<materialMaps>
+					<map fromMaterial="__Quad" toMaterial="mat_blur" toLibrary="PostProcessing"/>
+				</materialMaps>
+                <renderTarget name="LensFlareBlurred" fromLibrary="PostProcessing" />
+			</pass>
+            <pass class="quad" name="PostProcess_Effects">
+                <camera name="MainCamera" />
+				<viewport name="MainViewport" />
+				<materialMaps>
+					<map fromMaterial="__Quad" toMaterial="mat_radialblur" toLibrary="PostProcessing"/>
+				</materialMaps>
+			</pass-->
+        </pipeline>
+    </pipelines>
+
+    <interface> 
+        <window label="Skybox">
+            <var label="Sky blue" type="RENDERER" context="CURRENT" component="sky_blue"/>
+            <var label="Sky orange" type="RENDERER" context="CURRENT" component="sky_orange"/>
+            <var label="Sun color" type="LIGHT" context="Sun" component="COLOR"/>
+            <var label="Sun size" type="RENDERER" context="CURRENT" component="sun_cutoff" def="min=0 step=0.05"/>
+            <var label="Sun fade" type="RENDERER" context="CURRENT" component="sun_fade" def="min=0 step=0.05"/>
+            <var label="Sun direction" type="LIGHT" context="Sun" component="DIRECTION" />
+        </window>
+        <window label="God rays"> 
+            <var label="Samples" type="RENDERER" context="CURRENT" component="num_samples" def="min=0 max=200" /> 
+            <var label="Ray length" type="RENDERER" context="CURRENT" component="ray_length" def="min=0 max=1 step=0.01"/> 
+        </window>
+        <window label="Lens Flare">
+            <var label="Ghost count" type="RENDERER" context="CURRENT" component="ghost_count" />
+            <var label="Ghost spacing" type="RENDERER" context="CURRENT" component="ghost_spacing" def="step=0.01" />
+            <var label="Ghost threshold" type="RENDERER" context="CURRENT" component="ghost_threshold" def="step=0.01" />
+            <var label="Lens aberration" type="RENDERER" context="CURRENT" component="lens_aberration" def="step=0.01" />
+            <var label="Lens transparency" type="RENDERER" context="CURRENT" component="lens_transparency" def="step=0.01" />
+        </window>
+        <window label="Post Effects">
+            <var label="Vignette outter" type="RENDERER" context="CURRENT" component="vig_outter" def="min=0 max=1 step=0.01" />
+            <var label="Vignette inner" type="RENDERER" context="CURRENT" component="vig_inner" def="min=0 max=1 step=0.01" />
+            <var label="Vignette opacity" type="RENDERER" context="CURRENT" component="vig_opacity" def="min=0 max=1 step=0.01" />
+        </window>
+        <window label="Terrain"> 
+            <var label="Terrain Tiling" type="RENDERER" context="CURRENT" component="tiling" />
+            <var label="Terrain Specularity" type="RENDERER" context="CURRENT" component="specularity" def="min=0" />
+            <var label="Grass Scattering" type="RENDERER" context="CURRENT" component="scattering" def="min=0 max=200" /> 
+            <var label="Grass Translucency" type="RENDERER" context="CURRENT" component="translucency" def="min=0 max=10 step=0.01"/>
+            <var label="Tess max dist" type="RENDERER" context="CURRENT" component="tess_maxDistance" def="min=0"/> 
+	        <var label="Tess max near" type="RENDERER" context="CURRENT" component="tess_outOfScreen" def="min=0 step=0.1" /> 
+	        <var label="Tess max olevel" type="RENDERER" context="CURRENT" component="tess_maxOLevel" def="min=0"/> 
+	        <var label="Tess max ilevel" type="RENDERER" context="CURRENT" component="tess_maxILevel" def="min=0"/> 
+			<var label="Detail in Perlin" type="RENDERER" context="CURRENT" component="detail" def="min=0 max=15"/> 
+        </window>
+        <window label="Grass">
+        			<var label="level" type="RENDERER" context="CURRENT" component="level" 
+				def="min=1 max=64 step=0.01"/>
+			<var label="alpha" type="RENDERER" context="CURRENT" component="alpha" 
+				def="min=0 max=2 step=0.01"/>
+			<var label="bendFactor" type="RENDERER" context="CURRENT" component="bendFactor" 
+				def="min=0 max=2 step=0.01"/>
+			<var label="minBend" type="RENDERER" context="CURRENT" component="minBend" 
+				def="min=0 max=2 step=0.01"/>
+			<var label="maxBend" type="RENDERER" context="CURRENT" component="maxBend" 
+				def="min=0 max=2 step=0.01"/>
+			<var label="minHeight" type="RENDERER" context="CURRENT" component="minHeight" 
+				def="min=0 max=2 step=0.01"/>
+			<var label="maxHeight" type="RENDERER" context="CURRENT" component="maxHeight" 
+				def="min=0 max=2 step=0.01"/>
+			<var label="minWidth" type="RENDERER" context="CURRENT" component="minWidth" 
+				def="min=0 max=2 step=0.01"/>
+			<var label="maxWidth" type="RENDERER" context="CURRENT" component="maxWidth" 
+				def="min=0 max=2 step=0.01"/>
+			<var label="windStr" type="RENDERER" context="CURRENT" component="windStr" 
+				def="min=0 max=2 step=0.01"/>
+            <var label="windVelocity" type="RENDERER" context="CURRENT" component="windVelocity" 
+				def="min=0 max=100 step=0.01"/>
+            <var label="red" type="RENDERER" context="CURRENT" component="red" 
+				def="min=0 max=1 step=0.01"/>
+			<var label="green" type="RENDERER" context="CURRENT" component="green" 
+				def="min=0 max=1 step=0.01"/>
+			<var label="blue" type="RENDERER" context="CURRENT" component="blue" 
+				def="min=0 max=1 step=0.01"/>
+        </window>
+    </interface>   
+</project>

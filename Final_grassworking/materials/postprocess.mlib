@@ -1,0 +1,106 @@
+<?xml version="1.0" ?>
+<materialLib name="PostProcessing">
+    <renderTargets>
+    	<renderTarget name = "Source">
+			<SIZE width=1280 height=720 />
+			<colors>
+				<color name="tex_source" internalFormat="RGBA32F" />
+			</colors>
+		</renderTarget>
+    	<renderTarget name = "Brightness">
+			<SIZE width=320 height=180 />
+			<colors>
+				<color name="tex_brightness" internalFormat="R32F" />
+			</colors>
+		</renderTarget>
+		<renderTarget name ="LensFlare">
+			<SIZE width=320 height=180 />
+			<colors>
+				<color name="tex_lensflare" internalFormat="R32F" />
+			</colors>
+		</renderTarget>
+		<renderTarget name ="LensFlareBlurred">
+			<SIZE width=320 height=180 />
+			<colors>
+				<color name="tex_lensflareblurred" internalFormat="R32F" />
+			</colors>
+		</renderTarget>
+    </renderTargets>
+        
+	<shaders>
+        <shader name = "shader_brightness"
+            vs = "../shaders/quad.vert"
+            ps = "../shaders/brightness.frag" />
+		<shader name = "shader_lensflare"
+			vs = "../shaders/quad.vert"
+			ps = "../shaders/lensflare.frag" />
+		<shader name = "shader_radialblur"
+            vs = "../shaders/quad.vert"
+            ps = "../shaders/radialblur.frag" />
+		<shader name = "shader_blur"
+            vs = "../shaders/quad.vert"
+            ps = "../shaders/blur.frag" />
+	</shaders>
+
+	<materials>
+		<material name="mat_brightness">
+			<shader name="shader_brightness">
+				<values>
+                    <valueof uniform="tex_source"
+                             type="TEXTURE_BINDING" context = "CURRENT" component="UNIT" id=0 />
+				</values>
+			</shader>
+            <textures>
+                <texture name="tex_source" UNIT=0 />
+            </textures>
+		</material>
+		<material name="mat_lensflare">
+			<shader name="shader_lensflare">
+				<values>
+                    <valueof uniform="tex_brightness" 	type="TEXTURE_BINDING" context = "CURRENT" component="UNIT" id=0 />
+					<valueof uniform="ghost_count" 		type="RENDERER" context = "CURRENT" component="ghost_count" />
+					<valueof uniform="ghost_spacing" 	type="RENDERER" context = "CURRENT" component="ghost_spacing" />
+					<valueof uniform="ghost_threshold" 	type="RENDERER" context = "CURRENT" component="ghost_threshold" />
+				</values>
+			</shader>
+            <textures>
+                <texture name="tex_source" UNIT=0 />
+            </textures>
+		</material>
+		<material name="mat_blur">
+			<shader name="shader_blur">
+				<values>
+                    <valueof uniform="tex_lensflare" 	type="TEXTURE_BINDING" context = "CURRENT" component="UNIT" id=0 />
+					<valueof uniform="view_size" 		type="VIEWPORT" context="CURRENT" component="SIZE" />
+				</values>
+			</shader>
+            <textures>
+                <texture name="tex_lensflare" UNIT=0 />
+            </textures>
+		</material>
+		<material name="mat_radialblur">
+			<shader name="shader_radialblur">
+				<values>
+                    <valueof uniform="tex_source" 		type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id=0 />
+					<valueof uniform="tex_brightness" 	type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id=1 />
+					<valueof uniform="tex_lensflare" 	type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id=2 />
+					<valueof uniform="num_samples" 		type="RENDERER" context="CURRENT" component="num_samples" />
+					<valueof uniform="ray_length" 		type="RENDERER" context="CURRENT" component="ray_length" />
+					<valueof uniform="sun_screenPos" 	type="RENDERER" context="CURRENT" component="sun_screenPos" />
+					<valueof uniform="sun_color" 		type="LIGHT" context="Sun" component="COLOR" />
+					<valueof uniform="lens_aberration" 	type="RENDERER" context="CURRENT" component="lens_aberration" />
+					<valueof uniform="lens_transparency" type="RENDERER" context="CURRENT" component="lens_transparency" />
+					<valueof uniform="sky_blue" 		type="RENDERER" context="CURRENT" component="sky_blue" />
+					<valueof uniform="vig_outter" 		type="RENDERER" context="CURRENT" component="vig_outter" />
+					<valueof uniform="vig_inner" 		type="RENDERER" context="CURRENT" component="vig_inner" />
+					<valueof uniform="vig_opacity" 		type="RENDERER" context="CURRENT" component="vig_opacity" />
+				</values>
+			</shader>
+            <textures>
+                <texture name="tex_source" 		UNIT=0 />
+                <texture name="tex_brightness" 	UNIT=1 />
+                <texture name="tex_lensflareblurred" UNIT=2 />
+            </textures>
+		</material>
+	</materials>
+</materialLib>
