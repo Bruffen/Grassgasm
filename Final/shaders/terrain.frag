@@ -93,14 +93,14 @@ void main()
         
         /* Recalculate noise for normals */
         float OFFSET = 0.0001;
-        vec4 p = i.position;
+        vec4 p = i.worldPos;
         vec3 f_H = vec3 (0+OFFSET,mynoise(vec2(p.x+OFFSET,p.z)),0);
         vec3 r_H = vec3 (0,mynoise(vec2(p.x,p.z+OFFSET)),0+OFFSET);
         vec3 b_H = vec3 (0-OFFSET,mynoise(vec2(p.x-OFFSET,p.z)),0);
         vec3 l_H = vec3 (0,mynoise(vec2(p.x,p.z-OFFSET)),0-OFFSET);
         vec3 calcNormal = normalize(cross((0,p.y,0)-l_H,(0,p.y,0)-b_H)+cross((0,p.y,0)-r_H,(0,p.y,0)-f_H));
         vec3 n = normalize(m_normal * calcNormal);
-        vec2 uv = p.xz * tiling;
+        vec2 uv = i.worldPos.xz * tiling;
 
         /* Water */
         if (i.worldPos.y < 0.0)

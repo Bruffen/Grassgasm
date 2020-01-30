@@ -35,7 +35,7 @@
 			<attribute name="minWidth" data="FLOAT" type="RENDERER" value=0.01 />
 			<attribute name="maxWidth" data="FLOAT" type="RENDERER" value=0.1 />
 			<attribute name="minHeight" data="FLOAT" type="RENDERER" value=0.01 />
-			<attribute name="maxHeight" data="FLOAT" type="RENDERER" value=0.5 />
+			<attribute name="maxHeight" data="FLOAT" type="RENDERER" value=0.05 />
 			<attribute name="windStr" data="FLOAT" type="RENDERER" value=0.5 />
             <!--Terrain-->
             <attribute name="specularity"   data="INT"      type="RENDERER" value=32 />
