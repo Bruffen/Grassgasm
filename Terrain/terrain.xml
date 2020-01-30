@@ -10,8 +10,41 @@
 		</attributes>
 
 		<scenes>
-			<scene name = "plane">
+			<scene name = "plane1">
 				<file  name="models/Square.patch"/>
+				<TRANSLATE x=0 y=0 z=0 />
+			</scene>
+			<scene name = "plane2">
+				<file  name="models/Square.patch"/>
+				<TRANSLATE x=0 y=0 z=-10 />
+			</scene>
+			<scene name = "plane3">
+				<file  name="models/Square.patch"/>
+				<TRANSLATE x=0 y=0 z=10 />
+			</scene>
+			<scene name = "plane4">
+				<file  name="models/Square.patch"/>
+				<TRANSLATE x=10 y=0 z=0 />
+			</scene>
+			<scene name = "plane5">
+				<file  name="models/Square.patch"/>
+				<TRANSLATE x=10 y=0 z=-10 />
+			</scene>
+			<scene name = "plane6">
+				<file  name="models/Square.patch"/>
+				<TRANSLATE x=10 y=0 z=10 />
+			</scene>
+			<scene name = "plane7">
+				<file  name="models/Square.patch"/>
+				<TRANSLATE x=-10 y=0 z=0 />
+			</scene>
+			<scene name = "plane8">
+				<file  name="models/Square.patch"/>
+				<TRANSLATE x=-10 y=0 z=-10 />
+			</scene>
+			<scene name = "plane9">
+				<file  name="models/Square.patch"/>
+				<TRANSLATE x=-10 y=0 z=10 />
 			</scene>
         </scenes>
         
@@ -48,7 +81,15 @@
 		<pipeline name="Plane">
 			<pass class="default" name="planeRender">
 				<scenes>
-					<scene name="plane" />
+					<scene name="plane1" />
+					<scene name="plane2" />
+					<scene name="plane3" />
+					<scene name="plane4" />
+					<scene name="plane5" />
+					<scene name="plane6" />
+					<scene name="plane7" />
+					<scene name="plane8" />
+					<scene name="plane9" />
 				</scenes>
 				<camera name="MainCamera" />
 				<lights>

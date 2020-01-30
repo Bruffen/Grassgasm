@@ -60,7 +60,7 @@ float mynoise(vec2 points){
     result += (1.0/pow(2,i))*perlin(points,pow(2,i),seed+i*100);
   }
   //return smoothstep(0.0,1.6,result);
-  return pow(result-0.8,2);
+  return pow(result,2);
 }
 
 void main()

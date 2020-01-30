@@ -130,7 +130,7 @@ float mynoise(vec2 points){
     result += (1.0/pow(2,i))*perlin(points,pow(2,i),seed+i*100);
   }
   //return smoothstep(0.0,1.6,result);
-  return pow(result-0.8,2);
+  return pow(result,2);
 }
 
 void main() {
@@ -143,7 +143,7 @@ void main() {
 	vec4 p2 = mix(posTC[1],posTC[2],u);
 	vec4 pos = mix(p1, p2, v);
 	
-	float OFFSET = 0.00005;// distance(p2,p3)/100;
+	float OFFSET = 0.0001;// distance(p2,p3)/100;
 
 	vec4 p = pos; 
   p.y += mynoise(vec2(pos.x,pos.z)); 
@@ -157,6 +157,6 @@ void main() {
 
 	DataOut.position = p;
 
-	gl_Position = m_pvm * p;
+	gl_Position = m_pv * p;
 }
 
