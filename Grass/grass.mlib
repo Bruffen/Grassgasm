@@ -2,7 +2,7 @@
 <materialLib name="GrassLib">	
 	<textures>
 		<texture name="wind" filename="Wind/wind2.png" mipmap=true />
-		<texture name="color" filename="Wind/color.jpg" mipmap=true />
+		<texture name="color" filename="Wind/color.png" mipmap=true />
 	</textures>
 	<shaders>
 		<shader name="grasslib" 	vs="shaders/grass.vert" 
@@ -80,6 +80,18 @@
 					<valueof uniform="timer"
 							 type="RENDERER" context="CURRENT"
 							 component="TIMER" />
+
+					<valueof uniform="red"
+							 type="RENDERER" context="CURRENT"
+							 component="red" />
+
+					<valueof uniform="green"
+							 type="RENDERER" context="CURRENT"
+							 component="green" />
+
+					<valueof uniform="blue"
+							 type="RENDERER" context="CURRENT"
+							 component="blue" />
 				</values>
 			</shader>
 			<textures>
