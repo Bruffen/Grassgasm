@@ -17,6 +17,9 @@ uniform sampler2D snow_norm;
 uniform sampler2D snow_roug;
 uniform sampler2D grass_wind;
 uniform sampler2D grass_color;
+uniform float red;
+uniform float green;
+uniform float blue;
 
 uniform mat3 m_normal;
 
@@ -36,6 +39,7 @@ in data3 {
     vec3 normal;
     vec3 binormal;
     vec2 uv;
+    vec2 windpwr;
     flat int isGrass;
 } i;
 
@@ -238,12 +242,22 @@ void main()
         vec3 ambient = diffuse * 0.3;
         color = vec4(clamp(ambient + diffuse * 0.8 * intensity + specular * (1 - roughness) * 0.3, 0, 1), 1);
     } else {
-        vec3 bottomColor = vec3(0, 0.2, 0);
-        vec3 topColor = vec3(0, 1.5, 0);
+        vec2 uvs = vec2(i.uv.y, i.uv.x);
+	    vec4 c = texture(grass_color, uvs);
+	    float windEffect = 0.90;
 
-        vec3 lerp = mix(bottomColor, topColor, i.uv.y);
+	    if (i.windpwr.x > 0.55 && uvs.x > 0.6)
+	    	windEffect = 1;
 
-        color = texture(grass_color, i.uv);
+	    vec4 finalColor = c * windEffect;
+	    finalColor.r *= red;
+	    finalColor.g *= green;
+	    finalColor.b *= blue;
+
+	    if (i.windpwr.x == -1)
+	    	color = c;
+	    else
+	    	color = finalColor;//vec4(0, lerp.y, 0, 0);
     }
     //color = vec4(p.xz, 0.0, 1.0);
 }

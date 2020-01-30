@@ -32,11 +32,15 @@
 			<attribute name="bendFactor" data="FLOAT" type="RENDERER" value=0.75 />
 			<attribute name="minBend" data="FLOAT" type="RENDERER" value=0.01 />
 			<attribute name="maxBend" data="FLOAT" type="RENDERER" value=0.90 />
-			<attribute name="minWidth" data="FLOAT" type="RENDERER" value=0.01 />
-			<attribute name="maxWidth" data="FLOAT" type="RENDERER" value=0.1 />
-			<attribute name="minHeight" data="FLOAT" type="RENDERER" value=0.01 />
-			<attribute name="maxHeight" data="FLOAT" type="RENDERER" value=0.05 />
-			<attribute name="windStr" data="FLOAT" type="RENDERER" value=0.5 />
+			<attribute name="minWidth" data="FLOAT" type="RENDERER" value=0.05 />
+			<attribute name="maxWidth" data="FLOAT" type="RENDERER" value=0.05 />
+			<attribute name="minHeight" data="FLOAT" type="RENDERER" value=0.52 />
+			<attribute name="maxHeight" data="FLOAT" type="RENDERER" value=0.52 />
+			<attribute name="windStr" data="FLOAT" type="RENDERER" value=2 />
+            <attribute name="windVelocity" data="FLOAT" type="RENDERER" value=1 />
+            <attribute name="red" data="FLOAT" type="RENDERER" value=1 />
+			<attribute name="green" data="FLOAT" type="RENDERER" value=1 />
+			<attribute name="blue" data="FLOAT" type="RENDERER" value=1 />
             <!--Terrain-->
             <attribute name="specularity"   data="INT"      type="RENDERER" value=32 />
             <attribute name="tiling"        data="VEC2"     type="RENDERER" x=20.0 y=20.0 />
@@ -68,42 +72,6 @@
                 <ROTATE x=1 y=0 z=-1 w=90 />
                 <TRANSLATE x=-5 y=-1 z=-5 />
             </scene-->
-			<scene name = "plane1">
-				<file  name="models/Square.patch"/>
-				<TRANSLATE x=0 y=0 z=0 />
-			</scene>
-			<scene name = "plane2">
-				<file  name="models/Square.patch"/>
-				<TRANSLATE x=0 y=0 z=-10 />
-			</scene>
-			<scene name = "plane3">
-				<file  name="models/Square.patch"/>
-				<TRANSLATE x=0 y=0 z=10 />
-			</scene>
-			<scene name = "plane4">
-				<file  name="models/Square.patch"/>
-				<TRANSLATE x=10 y=0 z=0 />
-			</scene>
-			<scene name = "plane5">
-				<file  name="models/Square.patch"/>
-				<TRANSLATE x=10 y=0 z=-10 />
-			</scene>
-			<scene name = "plane6">
-				<file  name="models/Square.patch"/>
-				<TRANSLATE x=10 y=0 z=10 />
-			</scene>
-			<scene name = "plane7">
-				<file  name="models/Square.patch"/>
-				<TRANSLATE x=-10 y=0 z=0 />
-			</scene>
-			<scene name = "plane8">
-				<file  name="models/Square.patch"/>
-				<TRANSLATE x=-10 y=0 z=-10 />
-			</scene>
-			<scene name = "plane9">
-				<file  name="models/Square.patch"/>
-				<TRANSLATE x=-10 y=0 z=10 />
-			</scene>
         </scenes>
 
         <viewports>
@@ -146,15 +114,7 @@
                     <!--scene name="Axis" />
                     <scene name="Sphere" />
                     <scene name="Leaf" /-->
-                    <scene name="plane1" />
-					<scene name="plane2" />
-					<scene name="plane3" />
-					<scene name="plane4" />
-					<scene name="plane5" />
-					<scene name="plane6" />
-					<scene name="plane7" />
-					<scene name="plane8" />
-					<scene name="plane9" />
+                    <scene name="Plane" />
                 </scenes>
                 <camera name="MainCamera" />
                 <viewport name="MainViewport" />
@@ -262,6 +222,14 @@
 				def="min=0 max=2 step=0.01"/>
 			<var label="windStr" type="RENDERER" context="CURRENT" component="windStr" 
 				def="min=0 max=2 step=0.01"/>
+            <var label="windVelocity" type="RENDERER" context="CURRENT" component="windVelocity" 
+				def="min=0 max=100 step=0.01"/>
+            <var label="red" type="RENDERER" context="CURRENT" component="red" 
+				def="min=0 max=1 step=0.01"/>
+			<var label="green" type="RENDERER" context="CURRENT" component="green" 
+				def="min=0 max=1 step=0.01"/>
+			<var label="blue" type="RENDERER" context="CURRENT" component="blue" 
+				def="min=0 max=1 step=0.01"/>
         </window>
     </interface>   
 </project>

@@ -72,8 +72,59 @@
                     <valueof uniform="grass_color" type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id=16 />
                     <valueof uniform="specularity" type="RENDERER" context="CURRRENT" component="specularity" />
                     <valueof uniform="tiling"    type="RENDERER" context="CURRRENT" component="tiling" />
-                    <valueof uniform="m_model" type="RENDERER" context="CURRENT" component="MODEL" />
-                </values>
+                    <valueof uniform="bendFactor" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="bendFactor"  />
+					<valueof uniform="minBend" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="minBend"  />
+					<valueof uniform="maxBend" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="maxBend"  />
+					
+					<valueof uniform="minWidth" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="minWidth"  />
+
+					<valueof uniform="maxWidth" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="maxWidth"  />
+							
+					<valueof uniform="minHeight" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="minHeight"  />
+
+					<valueof uniform="maxHeight" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="maxHeight"  />
+
+					<valueof uniform="windStr" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="windStr"  />
+
+                    <valueof uniform="windVelocity" 		
+							 type="RENDERER" context="CURRENT" 
+							 component="windVelocity"  />
+
+					<valueof uniform="alpha"		
+							 type="RENDERER" context="CURRENT"
+							 component="alpha"	/>	
+
+					<valueof uniform="timer"
+							 type="RENDERER" context="CURRENT"
+							 component="TIMER" />
+                    <valueof uniform="red"
+							 type="RENDERER" context="CURRENT"
+							 component="red" />
+
+					<valueof uniform="green"
+							 type="RENDERER" context="CURRENT"
+							 component="green" />
+
+					<valueof uniform="blue"
+							 type="RENDERER" context="CURRENT"
+							 component="blue" />
+				</values>
 			</shader>
             <textures>
                 <texture name="dirt_diff" UNIT=0 />
