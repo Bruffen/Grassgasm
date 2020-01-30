@@ -39,7 +39,7 @@
 			<attribute name="windStr" data="FLOAT" type="RENDERER" value=0.5 />
             <!--Terrain-->
             <attribute name="specularity"   data="INT"      type="RENDERER" value=32 />
-            <attribute name="tiling"        data="VEC2"     type="RENDERER" x=1.0 y=1.0 />
+            <attribute name="tiling"        data="VEC2"     type="RENDERER" x=20.0 y=20.0 />
 			<attribute name="detail"        data="INT"      type="RENDERER" value=10 />
             <attribute name="tess_maxDistance" data="FLOAT" type="RENDERER" value=40 />
 			<attribute name="tess_maxOLevel"   data="INT" 	type="RENDERER" value=45 />

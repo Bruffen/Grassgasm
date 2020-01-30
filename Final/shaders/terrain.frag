@@ -114,7 +114,7 @@ void main()
             v_roug = vec3(0.0, 0.0, 0.0);
         }
         /* Sand */
-        else if (i.worldPos.y < 1.0)
+        else if (i.worldPos.y < 0.09)
         {
             v_diff = texture(sand_diff, uv).rgb;
             //v_norm = texture(sand_norm, uv).rgb * 2.0 - 1.0;
@@ -124,8 +124,31 @@ void main()
             //h_norm = v_norm;
             h_roug = v_roug;
         }
+        else if (i.worldPos.y > 0.09 && i.worldPos.y < 0.15)
+        {
+            vec3 v_diff1 = texture(sand_diff, uv).rgb;
+            //v_norm = texture(sand_norm, uv).rgb * 2.0 - 1.0;
+            vec3 v_roug1 = texture(sand_roug, uv).rgb;
+            vec3 h_diff1 = v_diff;
+            //h_norm = v_norm;
+            vec3 h_roug1 = v_roug;
+
+            vec3 v_diff2 = texture(dirt_diff, uv).rgb;
+            //v_norm = texture(dirt_norm, uv).rgb * 2.0 - 1.0;
+            vec3 v_roug2 = texture(dirt_roug, uv).rgb;
+
+            vec3 h_diff2 = texture(grass_diff, uv).rgb;
+            //h_norm = texture(grass_norm, uv).rgb * 2.0 - 1.0;
+            vec3 h_roug2 = texture(grass_roug, uv).rgb;
+
+            float factor = clamp((i.worldPos.y - 0.09) * 6.66, 0, 1);
+            v_diff = mix(v_diff1, v_diff2, factor);
+            v_roug = mix(v_roug1, v_roug2, factor);
+            h_diff = mix(h_diff1, h_diff2, factor);
+            h_roug = mix(h_roug1, h_roug2, factor);        
+        }
         /* Grass */
-        else if (i.worldPos.y < 10.0)
+        else if (i.worldPos.y < 0.5)
         {
             v_diff = texture(dirt_diff, uv).rgb;
             //v_norm = texture(dirt_norm, uv).rgb * 2.0 - 1.0;
@@ -135,7 +158,61 @@ void main()
             //h_norm = texture(grass_norm, uv).rgb * 2.0 - 1.0;
             h_roug = texture(grass_roug, uv).rgb;
         }
+        else if (i.worldPos.y > 0.5 && i.worldPos.y < 0.54)
+        {
+            vec3 v_diff1 = texture(grass_diff, uv).rgb;
+            //v_norm = texture(sand_norm, uv).rgb * 2.0 - 1.0;
+            vec3 v_roug1 = texture(grass_roug, uv).rgb;
+            vec3 h_diff1 = v_diff1;
+            //h_norm = v_norm;
+            vec3 h_roug1 = v_roug1;
+
+            vec3 v_diff2 = texture(rock_diff, uv).rgb;
+            //v_norm = texture(sand_norm, uv).rgb * 2.0 - 1.0;
+            vec3 v_roug2 = texture(rock_roug, uv).rgb;
+            vec3 h_diff2 = v_diff2;
+            //h_norm = v_norm;
+            vec3 h_roug2 = v_roug2;
+
+            float factor = clamp((i.worldPos.y - 0.5) * 25, 0, 1);
+            v_diff = mix(v_diff1, v_diff2, factor);
+            v_roug = mix(v_roug1, v_roug2, factor);
+            h_diff = mix(h_diff1, h_diff2, factor);
+            h_roug = mix(h_roug1, h_roug2, factor);
+        }
         /* Mountain top */
+        else if (i.worldPos.y < 2)
+        {
+            v_diff = texture(rock_diff, uv).rgb;
+            //v_norm = texture(sand_norm, uv).rgb * 2.0 - 1.0;
+            v_roug = texture(rock_roug, uv).rgb;
+
+            h_diff = v_diff;
+            //h_norm = v_norm;
+            h_roug = v_roug;
+        }
+        else if (i.worldPos.y > 2 && i.worldPos.y < 2.04)
+        {
+            vec3 v_diff1 = texture(rock_diff, uv).rgb;
+            //v_norm = texture(sand_norm, uv).rgb * 2.0 - 1.0;
+            vec3 v_roug1 = texture(rock_roug, uv).rgb;
+            vec3 h_diff1 = v_diff1;
+            //h_norm = v_norm;
+            vec3 h_roug1 = v_roug1;
+
+            vec3 v_diff2 = texture(rock_diff, uv).rgb;
+            //v_norm = texture(rock_norm, uv).rgb * 2.0 - 1.0;
+            vec3 v_roug2 = texture(rock_roug, uv).rgb;
+            vec3 h_diff2 = texture(snow_diff, uv).rgb;
+            //v_norm = texture(sand_norm, uv).rgb * 2.0 - 1.0;
+            vec3 h_roug2 = texture(snow_roug, uv).rgb;
+
+            float factor = clamp((i.worldPos.y - 2) * 25, 0, 1);
+            v_diff = mix(v_diff1, v_diff2, factor);
+            v_roug = mix(v_roug1, v_roug2, factor);
+            h_diff = mix(h_diff1, h_diff2, factor);
+            h_roug = mix(h_roug1, h_roug2, factor);
+        }
         else
         {
             v_diff = texture(rock_diff, uv).rgb;
@@ -159,7 +236,7 @@ void main()
         vec3 h          = normalize(i.ldir + i.eye);
         float specular  = pow(max(dot(h, n), 0.0), specularity) * intensity;
         vec3 ambient = diffuse * 0.3;
-        color = vec4(clamp(ambient + diffuse * 0.8 * intensity + specular * (1 - roughness), 0, 1), 1);
+        color = vec4(clamp(ambient + diffuse * 0.8 * intensity + specular * (1 - roughness) * 0.3, 0, 1), 1);
     } else {
         vec3 bottomColor = vec3(0, 0.2, 0);
         vec3 topColor = vec3(0, 1.5, 0);
