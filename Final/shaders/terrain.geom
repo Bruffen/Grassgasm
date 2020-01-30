@@ -19,6 +19,7 @@ uniform float maxHeight = 0.8;
 uniform float minWidth = 0.01;
 uniform float maxWidth = 0.1;
 uniform float windStr = 0.5;
+uniform mat4 m_pv;
 
 in data2 {
     vec4 position;
@@ -70,8 +71,8 @@ float ScaleValue(float min, float max, float percentage)
 void GenerateVertex(vec4 pos, vec3 offset)
 {
 	vec4 sum = pos + vec4(offset, 0);
-	o.worldPos = m_model * pos;
-	o.position = m_pvm * sum;
+	o.worldPos = pos;
+	o.position = m_pv * sum;
 	gl_Position = o.position;
     EmitVertex();
 }

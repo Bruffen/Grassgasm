@@ -72,7 +72,8 @@
                     <valueof uniform="grass_color" type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id=16 />
                     <valueof uniform="specularity" type="RENDERER" context="CURRRENT" component="specularity" />
                     <valueof uniform="tiling"    type="RENDERER" context="CURRRENT" component="tiling" />
-				</values>
+                    <valueof uniform="m_model" type="RENDERER" context="CURRENT" component="MODEL" />
+                </values>
 			</shader>
             <textures>
                 <texture name="dirt_diff" UNIT=0 />

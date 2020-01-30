@@ -129,7 +129,7 @@ float custom_noise(vec2 points,float dim, float seed){
 }
 
 float mynoise(vec2 points){
-    points = points/10;
+    points = points/40;
     float seed = 100;
     float result = 0; 
     for(int i=0;i<detail;++i)
@@ -137,7 +137,7 @@ float mynoise(vec2 points){
       result += (1.0/pow(2,i))*perlin(points,pow(2,i),seed+i*100);
     }
     //return smoothstep(0.0,1.6,result);
-    return pow(result-0.8,2);
+    return 4*pow(result,3);
 }
 
 void main() {
@@ -196,6 +196,6 @@ void main() {
     o.ldir = i[0].ldir;
     o.eye = /*tbn_inv **/ vec3(m_viewModel * -p);
     o.position = p;
-    o.worldPos = m_model * p;
+    o.worldPos =  p;
     gl_Position = /*m_pvm* */ p;
 }
