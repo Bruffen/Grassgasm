@@ -11,6 +11,9 @@
 			<attribute name="minHeight" data="FLOAT" type="RENDERER" value=0.01 />
 			<attribute name="maxHeight" data="FLOAT" type="RENDERER" value=0.5 />
 			<attribute name="windStr" data="FLOAT" type="RENDERER" value=0.5 />
+			<attribute name="red" data="FLOAT" type="RENDERER" value=1 />
+			<attribute name="green" data="FLOAT" type="RENDERER" value=1 />
+			<attribute name="blue" data="FLOAT" type="RENDERER" value=1 />
 		</attributes>
 		<scenes>
             <scene name = "Grass">
@@ -87,6 +90,13 @@
 				def="min=0 max=2 step=0.01"/>
 			<var label="windStr" type="RENDERER" context="CURRENT" component="windStr" 
 				def="min=0 max=2 step=0.01"/>
+
+			<var label="red" type="RENDERER" context="CURRENT" component="red" 
+				def="min=0 max=1 step=0.01"/>
+			<var label="green" type="RENDERER" context="CURRENT" component="green" 
+				def="min=0 max=1 step=0.01"/>
+			<var label="blue" type="RENDERER" context="CURRENT" component="blue" 
+				def="min=0 max=1 step=0.01"/>
 		</window>
 	</interface>
 </project>
